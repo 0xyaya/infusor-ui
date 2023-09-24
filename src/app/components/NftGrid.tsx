@@ -5,7 +5,7 @@ export enum GridSizeDisplay {
   BIG,
 }
 
-export default function GridNftWallet({
+export default function NftGrid({
   children,
   display = GridSizeDisplay.LITTLE,
 }: {

@@ -7,7 +7,7 @@ import {
 } from '@solana/wallet-adapter-react';
 import { useEffect, useState } from 'react';
 import { NftItem } from './hooks/nftLoader';
-import { GridSizeDisplay } from './components/GridNftWallet';
+import { GridSizeDisplay } from './components/NftGrid';
 import { PublicKey } from '@solana/web3.js';
 import OwnerDisplay from './components/OwnerDisplay';
 import CollectionDisplay from './components/CollectionDisplay';
@@ -24,7 +24,7 @@ export default function Home() {
 
   useEffect(() => {
     const syncWallet = async () => {
-      if (wallet.publicKey)
+      if (wallet.publicKey && !searchWallet)
         setSearchWallet(wallet.publicKey.toString());
     };
     syncWallet();

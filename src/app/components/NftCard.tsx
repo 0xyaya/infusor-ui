@@ -9,43 +9,33 @@ import {
   Text,
   VStack,
   Tooltip,
-  Center,
-  Link,
 } from '@chakra-ui/react';
-import {
-  MouseEventHandler,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { useState } from 'react';
 import {
   useConnection,
   useAnchorWallet,
-  useWallet,
 } from '@solana/wallet-adapter-react';
-import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
-import { NftItem } from '../hooks/nftLoader';
+import { PublicKey } from '@solana/web3.js';
+import { NftItemWithMetadata } from '../hooks/nftLoader';
 
 export enum GridSizeDisplay {
   LITTLE,
   BIG,
 }
 
-const NftWallet = ({
+const NftCard = ({
   nft,
   onInfuse = (nftMint: PublicKey) => {},
   gridSizeDisplay = GridSizeDisplay.LITTLE,
 }: {
-  nft: NftItem;
+  nft: NftItemWithMetadata;
   onInfuse?: (nftMint: PublicKey) => void;
   gridSizeDisplay?: GridSizeDisplay;
 }) => {
   const [isHover, setIsHover] = useState<boolean>(false);
   const wallet = useAnchorWallet();
   const connection = useConnection();
-  const clickHandler = () => {
-    console.log('click!');
-  };
+  const clickHandler = () => {};
 
   const mouseEnterHandler = () => {
     setIsHover(true);
@@ -54,10 +44,6 @@ const NftWallet = ({
   const mouseLeaveHandler = () => {
     setIsHover(false);
   };
-
-  useEffect(() => {
-    console.log('TEST');
-  }, []);
 
   return (
     <Box
@@ -147,4 +133,4 @@ const NftWallet = ({
   );
 };
 
-export default NftWallet;
+export default NftCard;

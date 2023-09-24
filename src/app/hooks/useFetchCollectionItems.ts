@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 
 const helius = new Helius(
   '0fe5333d-4590-437f-9a0e-4c3250aff8de',
-  'devnet'
+  'mainnet-beta'
 );
 
-const useFetchAssetsByOwner = (owner: PublicKey) => {
+const useFetchCollectionItems = (collection: PublicKey) => {
   const [data, setData] = useState<DAS.GetAssetResponse[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(null);
@@ -15,8 +15,9 @@ const useFetchAssetsByOwner = (owner: PublicKey) => {
   useEffect(() => {
     const fetchData = () => {
       helius.rpc
-        .getAssetsByOwner({
-          ownerAddress: owner.toString(),
+        .getAssetsByGroup({
+          groupKey: 'collection',
+          groupValue: collection.toString(),
           page: 1,
           limit: 20,
         })
@@ -30,9 +31,9 @@ const useFetchAssetsByOwner = (owner: PublicKey) => {
     };
 
     fetchData();
-  }, [owner]);
+  }, [collection]);
 
   return { error, isLoaded, data };
 };
 
-export default useFetchAssetsByOwner;
+export default useFetchCollectionItems;

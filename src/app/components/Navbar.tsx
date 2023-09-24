@@ -1,12 +1,12 @@
-'use client'
+'use client';
 
 import {
   ChevronDownIcon,
   ChevronRightIcon,
   CloseIcon,
   HamburgerIcon,
-} from '@chakra-ui/icons'
-import { Link } from '@chakra-ui/next-js'
+} from '@chakra-ui/icons';
+import { Link } from '@chakra-ui/next-js';
 import {
   Box,
   Collapse,
@@ -20,30 +20,31 @@ import {
   Stack,
   Text,
   useDisclosure,
-} from '@chakra-ui/react'
+} from '@chakra-ui/react';
 import {
   useConnection,
   useWallet,
-} from '@solana/wallet-adapter-react'
-import { useState } from 'react'
-import ConnectButton from './ConnectButton'
-import DisconnectButton from './DisconnectButton'
-require('@solana/wallet-adapter-react-ui/styles.css')
+} from '@solana/wallet-adapter-react';
+import { useState } from 'react';
+import ConnectButton from './ConnectButton';
+import DisconnectButton from './DisconnectButton';
+require('@solana/wallet-adapter-react-ui/styles.css');
 
-const walletPublicKey = '3EqUrFrjgABCWAnqMYjZ36GcktiwDtFdkNYwY6C6cDzy'
+const walletPublicKey =
+  '3EqUrFrjgABCWAnqMYjZ36GcktiwDtFdkNYwY6C6cDzy';
 
 export default function WithSubnavigation() {
-  const { isOpen, onToggle } = useDisclosure()
+  const { isOpen, onToggle } = useDisclosure();
   const [walletToParsePublicKey, setWalletToParsePublicKey] =
-    useState<string>(walletPublicKey)
-  const { connected, publicKey } = useWallet()
+    useState<string>(walletPublicKey);
+  const { connected, publicKey } = useWallet();
 
   const onUseWalletClick = () => {
-    console.log('Test bisbis')
+    console.log('Test bisbis');
     if (publicKey) {
-      setWalletToParsePublicKey(publicKey?.toBase58())
+      setWalletToParsePublicKey(publicKey?.toBase58());
     }
-  }
+  };
 
   return (
     <Box>
@@ -125,13 +126,13 @@ export default function WithSubnavigation() {
         <MobileNav />
       </Collapse>
     </Box>
-  )
+  );
 }
 
 const DesktopNav = () => {
-  const linkColor = 'gray.200'
-  const linkHoverColor = 'white'
-  const popoverContentBgColor = 'gray.800'
+  const linkColor = 'gray.200';
+  const linkHoverColor = 'white';
+  const popoverContentBgColor = 'gray.800';
 
   return (
     <Stack direction={'row'} spacing={4} h='100%' alignItems='center'>
@@ -174,8 +175,8 @@ const DesktopNav = () => {
         </Box>
       ))}
     </Stack>
-  )
-}
+  );
+};
 
 const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
   return (
@@ -219,8 +220,8 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
         </Flex>
       </Stack>
     </Link>
-  )
-}
+  );
+};
 
 const MobileNav = () => {
   return (
@@ -229,11 +230,11 @@ const MobileNav = () => {
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}
     </Stack>
-  )
-}
+  );
+};
 
 const MobileNavItem = ({ label, children, href }: NavItem) => {
-  const { isOpen, onToggle } = useDisclosure()
+  const { isOpen, onToggle } = useDisclosure();
 
   return (
     <Stack spacing={4} onClick={children && onToggle}>
@@ -283,14 +284,14 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
         </Stack>
       </Collapse>
     </Stack>
-  )
-}
+  );
+};
 
 interface NavItem {
-  label: string
-  subLabel?: string
-  children?: Array<NavItem>
-  href: string
+  label: string;
+  subLabel?: string;
+  children?: Array<NavItem>;
+  href: string;
 }
 
 const NAV_ITEMS: Array<NavItem> = [
@@ -299,7 +300,15 @@ const NAV_ITEMS: Array<NavItem> = [
     href: '/',
   },
   {
-    label: 'Analytics',
-    href: '/analytics',
+    label: 'Twitter',
+    href: 'https://twitter.com/0xTwoya',
   },
-]
+  {
+    label: 'Solarplex',
+    href: 'https://solarplex.xyz/profile/yaya.live.solarplex.xyz',
+  },
+  {
+    label: 'Discord',
+    href: '',
+  },
+];

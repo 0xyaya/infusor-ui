@@ -7,7 +7,7 @@ const helius = new Helius(
   'mainnet-beta'
 );
 
-const useFetchAssetsByCollection = (collection: PublicKey) => {
+const useFetchOwnerItems = (owner: PublicKey) => {
   const [data, setData] = useState<DAS.GetAssetResponse[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(null);
@@ -15,16 +15,14 @@ const useFetchAssetsByCollection = (collection: PublicKey) => {
   useEffect(() => {
     const fetchData = () => {
       helius.rpc
-        .getAssetsByGroup({
-          groupKey: 'collection',
-          groupValue: collection.toString(),
+        .getAssetsByOwner({
+          ownerAddress: owner.toString(),
           page: 1,
           limit: 20,
         })
         .then((response) => {
           setIsLoaded(true);
           setData(response.items);
-          console.log('response: ', response.items);
         })
         .catch((error) => {
           setError(error);
@@ -32,9 +30,9 @@ const useFetchAssetsByCollection = (collection: PublicKey) => {
     };
 
     fetchData();
-  }, [collection]);
+  }, [owner]);
 
   return { error, isLoaded, data };
 };
 
-export default useFetchAssetsByCollection;
+export default useFetchOwnerItems;
