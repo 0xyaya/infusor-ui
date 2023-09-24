@@ -37,7 +37,6 @@ export default function WithSubnavigation() {
   const { connected, publicKey } = useWallet();
 
   const onUseWalletClick = () => {
-    console.log('Test bisbis');
     if (publicKey) {
       setWalletToParsePublicKey(publicKey?.toBase58());
     }
@@ -306,6 +305,6 @@ const NAV_ITEMS: Array<NavItem> = [
   },
   {
     label: 'Discord',
-    href: '',
+    href: 'https://discord.gg/B3ASTXdU',
   },
 ];

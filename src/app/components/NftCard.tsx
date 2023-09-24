@@ -94,7 +94,7 @@ const NftCard = ({
               </Text>
               <Spacer />
               <Box borderWidth='1px' rounded='md' p='1'>
-                <Tooltip label='Infuse your tree to get a higher carbon score.'>
+                <Tooltip label='Infuse your NFT to get a higher carbon score.'>
                   <Text
                     fontWeight='thin'
                     letterSpacing='tighter'

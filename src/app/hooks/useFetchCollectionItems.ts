@@ -3,7 +3,7 @@ import { PublicKey } from '@solana/web3.js';
 import { useEffect, useState } from 'react';
 
 const helius = new Helius(
-  '0fe5333d-4590-437f-9a0e-4c3250aff8de',
+  `${process.env.API_KEY_SECRET}`,
   'mainnet-beta'
 );
 
