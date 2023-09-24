@@ -11,9 +11,11 @@ import { useEffect, useState } from 'react';
 const OwnerDisplay = ({
   wallet,
   display,
+  onInfuse,
 }: {
   wallet: PublicKey;
   display: GridSizeDisplay;
+  onInfuse: () => void;
 }) => {
   const { isLoaded, error, data } = useFetchOwnerItems(wallet);
   const [fulldata, setFulldata] = useState<NftItemWithMetadata[]>([]);
@@ -34,6 +36,7 @@ const OwnerDisplay = ({
             key={i.title}
             nft={i}
             gridSizeDisplay={display}
+            onInfuse={onInfuse}
           />
         ))}
     </NftGrid>

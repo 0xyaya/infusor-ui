@@ -11,9 +11,11 @@ import { useEffect, useState } from 'react';
 const CollectionDisplay = ({
   collection,
   display,
+  onInfuse,
 }: {
   collection: PublicKey;
   display: GridSizeDisplay;
+  onInfuse: () => void;
 }) => {
   const { error, isLoaded, data } =
     useFetchCollectionItems(collection);
@@ -36,6 +38,7 @@ const CollectionDisplay = ({
             key={d.title}
             nft={d}
             gridSizeDisplay={display}
+            onInfuse={onInfuse}
           ></NftWallet>
         ))}
     </NftGrid>

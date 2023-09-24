@@ -1,51 +1,50 @@
-'use client'
+'use client';
 
-import { Button } from '@chakra-ui/react'
-import { useWallet } from '@solana/wallet-adapter-react'
-import { useWalletModal } from '@solana/wallet-adapter-react-ui'
-import { useEffect } from 'react'
+import { Button } from '@chakra-ui/react';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { useWalletModal } from '@solana/wallet-adapter-react-ui';
+import { useEffect } from 'react';
 
 const ConnectButton = ({
   onUseWalletClick,
 }: {
-  onUseWalletClick: () => void
+  onUseWalletClick: () => void;
 }) => {
-  const { setVisible } = useWalletModal()
-  const { wallet, connect, connecting, publicKey } = useWallet()
+  const { setVisible } = useWalletModal();
+  const { wallet, connect, connecting, publicKey } = useWallet();
 
   useEffect(() => {
-    console.log('HELLo')
+    console.log('HELLo');
     if (!publicKey && wallet) {
       try {
-        connect()
+        connect();
       } catch (error) {
         console.log(
           'Error connecting to the wallet: ',
           (error as any).message
-        )
+        );
       }
     }
-  }, [connect, publicKey, wallet])
+  }, [connect, publicKey, wallet]);
 
   const handleWalletClick = () => {
-    console.log('Test')
+    console.log('Test');
     try {
       if (!wallet) {
-        setVisible(true)
+        setVisible(true);
       } else {
-        connect()
+        connect();
       }
-      onUseWalletClick()
+      onUseWalletClick();
     } catch (error) {
       console.log(
         'Error connecting to the wallet: ',
         (error as any).message
-      )
+      );
     }
-  }
+  };
 
   const connectButton = () => {
-    console.log('REAL')
     return (
       <Button
         onClick={handleWalletClick}
@@ -54,8 +53,8 @@ const ConnectButton = ({
       >
         <div>Connect Wallet</div>
       </Button>
-    )
-  }
+    );
+  };
 
   const walletButton = () => {
     return (
@@ -66,10 +65,10 @@ const ConnectButton = ({
       >
         <div>{publicKey?.toBase58().substring(0, 6)}...</div>
       </Button>
-    )
-  }
+    );
+  };
 
-  return <>{publicKey ? walletButton() : connectButton()}</>
-}
+  return <>{publicKey ? walletButton() : connectButton()}</>;
+};
 
-export default ConnectButton
+export default ConnectButton;

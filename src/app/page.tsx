@@ -4,21 +4,26 @@ import {
   Box,
   VStack,
   Text,
-  Input,
-  Button,
   Spacer,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+  Icon,
+  CloseButton,
+  useDisclosure,
 } from '@chakra-ui/react';
 import {
   useConnection,
   useWallet,
 } from '@solana/wallet-adapter-react';
 import { useEffect, useState } from 'react';
-import { NftItem } from './hooks/metadataLoader';
 import { GridSizeDisplay } from './components/NftGrid';
 import { PublicKey } from '@solana/web3.js';
 import OwnerDisplay from './components/OwnerDisplay';
 import CollectionDisplay from './components/CollectionDisplay';
 import ToolsBar from './components/ToolsBar';
+import { FaHeart, FaIcons, FaSeedling, FaStar } from 'react-icons/fa';
 
 const walletPublicKey =
   '3EqUrFrjgABCWAnqMYjZ36GcktiwDtFdkNYwY6C6cDzy';
@@ -31,6 +36,11 @@ export default function Home() {
   const [collection, setCollection] = useState<string>('');
   const [gridSizeDisplay, setGridSizeDisplay] =
     useState<GridSizeDisplay>(GridSizeDisplay.LITTLE);
+  const {
+    isOpen: isVisible,
+    onClose: onAlertClose,
+    onOpen: onAlertOpen,
+  } = useDisclosure({ defaultIsOpen: false });
 
   useEffect(() => {
     const syncWallet = async () => {
@@ -75,17 +85,37 @@ export default function Home() {
           onSearchCollection={searchCollectionHandler}
           onSearchOwner={searchOwnerHandler}
         />
-
+        {isVisible && (
+          <Alert status='success'>
+            <AlertIcon />
+            <Box width='100%'>
+              <AlertTitle>
+                infused with love <Icon as={FaHeart} />
+              </AlertTitle>
+              <AlertDescription>
+                <Text>but nothing happened!</Text>
+              </AlertDescription>
+            </Box>
+            <CloseButton
+              position='relative'
+              right={-1}
+              top={-1}
+              onClick={onAlertClose}
+            />
+          </Alert>
+        )}
         {searchWallet && searchingMode === 0 && (
           <OwnerDisplay
             wallet={new PublicKey(searchWallet)}
             display={gridSizeDisplay}
+            onInfuse={onAlertOpen}
           />
         )}
         {searchingMode === 1 && (
           <CollectionDisplay
             collection={new PublicKey(collection)}
             display={gridSizeDisplay}
+            onInfuse={onAlertOpen}
           />
         )}
       </VStack>

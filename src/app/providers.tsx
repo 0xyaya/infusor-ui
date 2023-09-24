@@ -1,22 +1,37 @@
 // app/providers.tsx
-'use client'
+'use client';
 
-import { CacheProvider } from '@chakra-ui/next-js'
-import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
+import { CacheProvider } from '@chakra-ui/next-js';
+import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 import {
   PhantomWalletAdapter,
   SolflareWalletAdapter,
   TorusWalletAdapter,
-} from '@solana/wallet-adapter-wallets'
+} from '@solana/wallet-adapter-wallets';
 import {
   WalletProvider,
   ConnectionProvider,
-} from '@solana/wallet-adapter-react'
-import { WalletModalProvider } from '@solana/wallet-adapter-react-ui'
-import { clusterApiUrl } from '@solana/web3.js'
-import { useMemo } from 'react'
-import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
-import { extendTheme } from '@chakra-ui/react'
+} from '@solana/wallet-adapter-react';
+import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
+import { clusterApiUrl } from '@solana/web3.js';
+import { useMemo } from 'react';
+import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
+import { extendTheme } from '@chakra-ui/react';
+import { Global } from '@emotion/react';
+
+const Fonts = () => (
+  <Global
+    styles={`
+      /* latin */
+      @font-face {
+        font-family: 'pokemon-font';
+  src: url('/fonts/pokemon-font.woff2') format('woff2')
+      }
+      `}
+  />
+);
+
+export default Fonts;
 
 const theme = extendTheme({
   initialColorMode: 'dark',
@@ -32,7 +47,9 @@ const theme = extendTheme({
       900: '#1a202c',
     },
   },
-
+  fonts: {
+    body: 'pokemon-font, monospace',
+  },
   styles: {
     global: () => ({
       body: {
@@ -40,18 +57,18 @@ const theme = extendTheme({
       },
     }),
   },
-})
+});
 
 export function Providers({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   // The network can be set to 'devnet', 'testnet', or 'mainnet-beta'.
-  const network = WalletAdapterNetwork.Devnet
+  const network = WalletAdapterNetwork.Devnet;
 
   // You can also provide a custom RPC endpoint.
-  const endpoint = useMemo(() => clusterApiUrl(network), [network])
+  const endpoint = useMemo(() => clusterApiUrl(network), [network]);
   const wallets = useMemo(
     () => [
       new PhantomWalletAdapter(),
@@ -59,7 +76,7 @@ export function Providers({
       new TorusWalletAdapter(),
     ],
     []
-  )
+  );
 
   return (
     <CacheProvider>
@@ -67,10 +84,11 @@ export function Providers({
         <ColorModeScript initialColorMode='dark' />
         <ConnectionProvider endpoint={endpoint}>
           <WalletProvider wallets={wallets}>
+            <Fonts />
             <WalletModalProvider>{children}</WalletModalProvider>
           </WalletProvider>
         </ConnectionProvider>
       </ChakraProvider>
     </CacheProvider>
-  )
+  );
 }

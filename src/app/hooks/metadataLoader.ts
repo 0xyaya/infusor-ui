@@ -1,6 +1,4 @@
-import { WalletContextState } from '@solana/wallet-adapter-react';
-import { DAS, Helius } from 'helius-sdk';
-import { type PublicKey } from '@solana/web3.js';
+import { DAS } from 'helius-sdk';
 
 export interface NftItem {
   title: string;

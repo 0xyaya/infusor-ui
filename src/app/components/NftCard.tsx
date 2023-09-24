@@ -25,11 +25,11 @@ export enum GridSizeDisplay {
 
 const NftCard = ({
   nft,
-  onInfuse = (nftMint: PublicKey) => {},
+  onInfuse,
   gridSizeDisplay,
 }: {
   nft: NftItemWithMetadata;
-  onInfuse?: (nftMint: PublicKey) => void;
+  onInfuse: () => void;
   gridSizeDisplay?: GridSizeDisplay;
 }) => {
   const [isHover, setIsHover] = useState<boolean>(false);
@@ -67,10 +67,11 @@ const NftCard = ({
         right={2}
         bg='aquamarine'
       />
+
       <Image
         boxSize={
           gridSizeDisplay === GridSizeDisplay.LITTLE
-            ? '200px'
+            ? '250px'
             : '300px'
         }
         src={nft.imageUri}
@@ -125,6 +126,7 @@ const NftCard = ({
           m='0'
           w='100%'
           colorScheme='aquamarine'
+          onClick={onInfuse}
         >
           Infuse
         </Button>
