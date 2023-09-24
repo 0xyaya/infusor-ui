@@ -76,8 +76,8 @@ export default function Home() {
     >
       <VStack>
         <Text>
-          Infuse your NFTs with some burnt carbon credits to make it
-          cool and green
+          Infuse your NFT with carbon credits burned to be cool &
+          sustainable-proof!
         </Text>
         <Spacer />
         <ToolsBar
