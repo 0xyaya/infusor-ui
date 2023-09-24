@@ -16,7 +16,7 @@ import {
   useAnchorWallet,
 } from '@solana/wallet-adapter-react';
 import { PublicKey } from '@solana/web3.js';
-import { NftItemWithMetadata } from '../hooks/nftLoader';
+import { NftItemWithMetadata } from '../hooks/metadataLoader';
 
 export enum GridSizeDisplay {
   LITTLE,

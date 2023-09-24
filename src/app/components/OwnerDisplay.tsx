@@ -4,7 +4,7 @@ import NftWallet from './NftCard';
 import {
   NftItemWithMetadata,
   loadMetadata,
-} from '../hooks/nftLoader';
+} from '../hooks/metadataLoader';
 import useFetchOwnerItems from '../hooks/useFetchOwnerItems';
 import { useEffect, useState } from 'react';
 

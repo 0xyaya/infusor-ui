@@ -1,12 +1,19 @@
 'use client';
 
-import { Box, VStack, Text, Input, Button } from '@chakra-ui/react';
+import {
+  Box,
+  VStack,
+  Text,
+  Input,
+  Button,
+  Spacer,
+} from '@chakra-ui/react';
 import {
   useConnection,
   useWallet,
 } from '@solana/wallet-adapter-react';
 import { useEffect, useState } from 'react';
-import { NftItem } from './hooks/nftLoader';
+import { NftItem } from './hooks/metadataLoader';
 import { GridSizeDisplay } from './components/NftGrid';
 import { PublicKey } from '@solana/web3.js';
 import OwnerDisplay from './components/OwnerDisplay';
@@ -33,17 +40,14 @@ export default function Home() {
     syncWallet();
   }, [wallet, connection, searchingMode]);
 
-  const searchByCollectionHandler = () => {
-    // Heist 6d9pvGuM6iG9GVuxRzSVHEQCdy44arm6oyqu6aUzrzLo
-    // Fox BUjZjAS2vbbb65g7Z1Ca9ZRVYoJscURG5L3AkVvHP9ac
-    console.log('search by collection');
-    setCollection('6d9pvGuM6iG9GVuxRzSVHEQCdy44arm6oyqu6aUzrzLo');
+  const searchCollectionHandler = (collection: string) => {
+    setCollection(collection);
     setSearchingMode(1);
   };
 
-  const searchFoxHandler = () => {
-    setCollection('BUjZjAS2vbbb65g7Z1Ca9ZRVYoJscURG5L3AkVvHP9ac');
-    setSearchingMode(1);
+  const searchOwnerHandler = (owner: string) => {
+    setSearchWallet(owner);
+    setSearchingMode(0);
   };
 
   const gridChangedHandler = (newSizeDisplay: GridSizeDisplay) => {
@@ -61,23 +65,16 @@ export default function Home() {
       py={{ base: '6', md: '8', lg: '10' }}
     >
       <VStack>
-        <Text>Infuse your NFTs</Text>
-        <ToolsBar onGridChange={gridChangedHandler} />
-        <Button onClick={searchByCollectionHandler}>The Heist</Button>
-        <Button onClick={searchFoxHandler}>
-          Famous Fox Foundation
-        </Button>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            setSearchingMode(0);
-          }}
-        >
-          <Input
-            value={searchWallet}
-            onChange={(e) => setSearchWallet(e.currentTarget.value)}
-          />
-        </form>
+        <Text>
+          Infuse your NFTs with some burnt carbon credits to make it
+          cool and green
+        </Text>
+        <Spacer />
+        <ToolsBar
+          onGridChange={gridChangedHandler}
+          onSearchCollection={searchCollectionHandler}
+          onSearchOwner={searchOwnerHandler}
+        />
 
         {searchWallet && searchingMode === 0 && (
           <OwnerDisplay

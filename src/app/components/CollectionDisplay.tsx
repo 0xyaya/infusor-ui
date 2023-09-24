@@ -5,7 +5,7 @@ import NftWallet from './NftCard';
 import {
   NftItemWithMetadata,
   loadMetadata,
-} from '../hooks/nftLoader';
+} from '../hooks/metadataLoader';
 import { useEffect, useState } from 'react';
 
 const CollectionDisplay = ({
