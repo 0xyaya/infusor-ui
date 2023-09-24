@@ -1,50 +1,26 @@
 'use client';
 
-import Image from 'next/image';
-import styles from './page.module.css';
-import {
-  Box,
-  VStack,
-  Text,
-  useDisclosure,
-  Input,
-  HStack,
-} from '@chakra-ui/react';
+import { Box, VStack, Text, Input, Button } from '@chakra-ui/react';
 import {
   useConnection,
   useWallet,
 } from '@solana/wallet-adapter-react';
 import { useEffect, useState } from 'react';
-import {
-  NftItem,
-  fetchNftFromWallet,
-  fetchThings,
-  fetchThingsByWallet,
-} from './hooks/nftLoader';
-import GridNftWallet, {
-  GridSizeDisplay,
-} from './components/GridNftWallet';
-import NftWallet from './components/NftWallet';
+import { NftItem } from './hooks/nftLoader';
+import { GridSizeDisplay } from './components/GridNftWallet';
 import { PublicKey } from '@solana/web3.js';
-import useFetchByOwner from './hooks/useFetchAssetsByOwner';
-import fromAsset from './hooks/useFormattedAssetsByOwner.ts';
-import MainDisplay from './components/MainDisplay';
+import OwnerDisplay from './components/OwnerDisplay';
+import CollectionDisplay from './components/CollectionDisplay';
 
 const walletPublicKey =
   '3EqUrFrjgABCWAnqMYjZ36GcktiwDtFdkNYwY6C6cDzy';
 
 export default function Home() {
-  const [nft, setNft] = useState<NftItem[]>([]);
   const wallet = useWallet();
-  const [gridSizeDisplay, setGridSizeDisplay] =
-    useState<GridSizeDisplay>(GridSizeDisplay.LITTLE);
   const connection = useConnection();
-  const [searchTrigger, setSearchTrigger] = useState<boolean>(false);
   const [searchWallet, setSearchWallet] = useState<string>();
-
-  const onInfusedHandler = () => {
-    console.log('Infused!');
-  };
+  const [searchingMode, setSearchingMode] = useState<number>(0);
+  const [collection, setCollection] = useState<string>('');
 
   useEffect(() => {
     const syncWallet = async () => {
@@ -52,10 +28,19 @@ export default function Home() {
         setSearchWallet(wallet.publicKey.toString());
     };
     syncWallet();
-  }, [wallet, connection, searchTrigger]);
+  }, [wallet, connection, searchingMode]);
 
-  const testHandler = () => {
-    console.log('TEST BIS');
+  const searchByCollectionHandler = () => {
+    // Heist 6d9pvGuM6iG9GVuxRzSVHEQCdy44arm6oyqu6aUzrzLo
+    // Fox BUjZjAS2vbbb65g7Z1Ca9ZRVYoJscURG5L3AkVvHP9ac
+    console.log('search by collection');
+    setCollection('6d9pvGuM6iG9GVuxRzSVHEQCdy44arm6oyqu6aUzrzLo');
+    setSearchingMode(1);
+  };
+
+  const searchFoxHandler = () => {
+    setCollection('BUjZjAS2vbbb65g7Z1Ca9ZRVYoJscURG5L3AkVvHP9ac');
+    setSearchingMode(1);
   };
 
   return (
@@ -68,10 +53,14 @@ export default function Home() {
     >
       <VStack>
         <Text>Infuse your NFTs</Text>
+        <Button onClick={searchByCollectionHandler}>The Heist</Button>
+        <Button onClick={searchFoxHandler}>
+          Famous Fox Foundation
+        </Button>
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            setSearchTrigger(true);
+            setSearchingMode(0);
           }}
         >
           <Input
@@ -80,8 +69,11 @@ export default function Home() {
           />
         </form>
 
-        {searchWallet && (
-          <MainDisplay wallet={new PublicKey(searchWallet)} />
+        {searchWallet && searchingMode === 0 && (
+          <OwnerDisplay wallet={new PublicKey(searchWallet)} />
+        )}
+        {searchingMode === 1 && (
+          <CollectionDisplay collection={new PublicKey(collection)} />
         )}
       </VStack>
     </Box>

@@ -1,15 +1,20 @@
 import { PublicKey } from '@solana/web3.js';
+import useFetchAssetsByCollection from '../hooks/useFetchAssetsByCollection';
 import GridNftWallet from './GridNftWallet';
 import NftWallet from './NftWallet';
 import {
   NftItemWithMetadata,
   loadMetadata,
 } from '../hooks/nftLoader';
-import useFetchAssetsByOwner from '../hooks/useFetchAssetsByOwner';
 import { useEffect, useState } from 'react';
 
-const MainDisplay = ({ wallet }: { wallet: PublicKey }) => {
-  const { isLoaded, error, data } = useFetchAssetsByOwner(wallet);
+const CollectionDisplay = ({
+  collection,
+}: {
+  collection: PublicKey;
+}) => {
+  const { error, isLoaded, data } =
+    useFetchAssetsByCollection(collection);
   const [fulldata, setFulldata] = useState<NftItemWithMetadata[]>([]);
 
   useEffect(() => {
@@ -20,12 +25,15 @@ const MainDisplay = ({ wallet }: { wallet: PublicKey }) => {
 
     load();
   }, [data]);
+
   return (
     <GridNftWallet>
       {fulldata &&
-        fulldata.map((i) => <NftWallet key={i.title} nft={i} />)}
+        fulldata.map((d) => (
+          <NftWallet key={d.title} nft={d}></NftWallet>
+        ))}
     </GridNftWallet>
   );
 };
 
-export default MainDisplay;
+export default CollectionDisplay;
