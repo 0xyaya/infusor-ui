@@ -26,7 +26,7 @@ export enum GridSizeDisplay {
 const NftCard = ({
   nft,
   onInfuse = (nftMint: PublicKey) => {},
-  gridSizeDisplay = GridSizeDisplay.LITTLE,
+  gridSizeDisplay,
 }: {
   nft: NftItemWithMetadata;
   onInfuse?: (nftMint: PublicKey) => void;
@@ -70,8 +70,8 @@ const NftCard = ({
       <Image
         boxSize={
           gridSizeDisplay === GridSizeDisplay.LITTLE
-            ? '300px'
-            : '450px'
+            ? '200px'
+            : '300px'
         }
         src={nft.imageUri}
         alt='Picture of something'

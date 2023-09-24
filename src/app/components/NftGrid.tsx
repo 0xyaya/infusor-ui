@@ -10,13 +10,13 @@ export default function NftGrid({
   display = GridSizeDisplay.LITTLE,
 }: {
   children: React.ReactNode;
-  display?: GridSizeDisplay;
+  display: GridSizeDisplay;
 }) {
   return (
     <SimpleGrid
       columns={{
         base: 1,
-        md: display === GridSizeDisplay.LITTLE ? 4 : 2,
+        md: display === GridSizeDisplay.LITTLE ? 5 : 4,
       }}
       columnGap={{ base: '4', md: '6' }}
       rowGap={{ base: '8', md: '10' }}

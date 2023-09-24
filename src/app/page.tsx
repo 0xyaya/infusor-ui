@@ -11,6 +11,7 @@ import { GridSizeDisplay } from './components/NftGrid';
 import { PublicKey } from '@solana/web3.js';
 import OwnerDisplay from './components/OwnerDisplay';
 import CollectionDisplay from './components/CollectionDisplay';
+import ToolsBar from './components/ToolsBar';
 
 const walletPublicKey =
   '3EqUrFrjgABCWAnqMYjZ36GcktiwDtFdkNYwY6C6cDzy';
@@ -21,6 +22,8 @@ export default function Home() {
   const [searchWallet, setSearchWallet] = useState<string>();
   const [searchingMode, setSearchingMode] = useState<number>(0);
   const [collection, setCollection] = useState<string>('');
+  const [gridSizeDisplay, setGridSizeDisplay] =
+    useState<GridSizeDisplay>(GridSizeDisplay.LITTLE);
 
   useEffect(() => {
     const syncWallet = async () => {
@@ -43,6 +46,12 @@ export default function Home() {
     setSearchingMode(1);
   };
 
+  const gridChangedHandler = (newSizeDisplay: GridSizeDisplay) => {
+    if (newSizeDisplay !== gridSizeDisplay) {
+      setGridSizeDisplay(newSizeDisplay);
+    }
+  };
+
   return (
     <Box
       maxW='7xl'
@@ -53,6 +62,7 @@ export default function Home() {
     >
       <VStack>
         <Text>Infuse your NFTs</Text>
+        <ToolsBar onGridChange={gridChangedHandler} />
         <Button onClick={searchByCollectionHandler}>The Heist</Button>
         <Button onClick={searchFoxHandler}>
           Famous Fox Foundation
@@ -70,10 +80,16 @@ export default function Home() {
         </form>
 
         {searchWallet && searchingMode === 0 && (
-          <OwnerDisplay wallet={new PublicKey(searchWallet)} />
+          <OwnerDisplay
+            wallet={new PublicKey(searchWallet)}
+            display={gridSizeDisplay}
+          />
         )}
         {searchingMode === 1 && (
-          <CollectionDisplay collection={new PublicKey(collection)} />
+          <CollectionDisplay
+            collection={new PublicKey(collection)}
+            display={gridSizeDisplay}
+          />
         )}
       </VStack>
     </Box>

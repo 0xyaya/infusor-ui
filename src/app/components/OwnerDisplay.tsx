@@ -1,5 +1,5 @@
 import { PublicKey } from '@solana/web3.js';
-import NftGrid from './NftGrid';
+import NftGrid, { GridSizeDisplay } from './NftGrid';
 import NftWallet from './NftCard';
 import {
   NftItemWithMetadata,
@@ -8,7 +8,13 @@ import {
 import useFetchOwnerItems from '../hooks/useFetchOwnerItems';
 import { useEffect, useState } from 'react';
 
-const OwnerDisplay = ({ wallet }: { wallet: PublicKey }) => {
+const OwnerDisplay = ({
+  wallet,
+  display,
+}: {
+  wallet: PublicKey;
+  display: GridSizeDisplay;
+}) => {
   const { isLoaded, error, data } = useFetchOwnerItems(wallet);
   const [fulldata, setFulldata] = useState<NftItemWithMetadata[]>([]);
 
@@ -21,9 +27,15 @@ const OwnerDisplay = ({ wallet }: { wallet: PublicKey }) => {
     load();
   }, [data]);
   return (
-    <NftGrid>
+    <NftGrid display={display}>
       {fulldata &&
-        fulldata.map((i) => <NftWallet key={i.title} nft={i} />)}
+        fulldata.map((i) => (
+          <NftWallet
+            key={i.title}
+            nft={i}
+            gridSizeDisplay={display}
+          />
+        ))}
     </NftGrid>
   );
 };
