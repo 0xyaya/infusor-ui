@@ -21,6 +21,37 @@ interface CardInfosProps {
   onSearchOwner: (wallet: string) => void;
 }
 
+const collections = [
+  {
+    name: 'Famous Fox Foundation',
+    address: 'BUjZjAS2vbbb65g7Z1Ca9ZRVYoJscURG5L3AkVvHP9ac',
+  },
+  {
+    name: 'The Heist',
+    address: '6d9pvGuM6iG9GVuxRzSVHEQCdy44arm6oyqu6aUzrzLo',
+  },
+  {
+    name: 'Reavers',
+    address: '6P9DSB6ifwTfSjAY6CpEvnHYfk6Sc2iYWSoM2qM4u31f',
+  },
+  {
+    name: 'Meegos',
+    address: 'HNv9G2NxgZEWLxmzFqSCWYk4moUYvNrWjbq6AY2AHJKF',
+  },
+  {
+    name: 'SMB GEN2',
+    address: 'HNv9G2NxgZEWLxmzFqSCWYk4moUYvNrWjbq6AY2AHJKF',
+  },
+  {
+    name: 'Degenerate Ape Academy',
+    address: 'DSwfRF1jhhu6HpSuzaig1G19kzP73PfLZBPLofkw6fLD',
+  },
+  {
+    name: 'Smyths',
+    address: 'CLBrjmoDCFvrW8ukxXtDrBXWkL7Yx8PKspKaBPFxhpmL',
+  },
+];
+
 const ToolsBar = ({
   onGridChange,
   onSearchCollection,
@@ -49,19 +80,14 @@ const ToolsBar = ({
         <Select
           w='30%'
           variant='outline'
-          placeholder='Select a collection'
           onChange={collectionChangeHandle}
           value={selectedCollection}
         >
-          <option
-            value='BUjZjAS2vbbb65g7Z1Ca9ZRVYoJscURG5L3AkVvHP9ac'
-            selected
-          >
-            Famous Fox Foundation
-          </option>
-          <option value='6d9pvGuM6iG9GVuxRzSVHEQCdy44arm6oyqu6aUzrzLo'>
-            The heist
-          </option>
+          {collections.map((collection) => (
+            <option value={collection.address}>
+              {collection.name}
+            </option>
+          ))}
         </Select>
 
         <Spacer />
