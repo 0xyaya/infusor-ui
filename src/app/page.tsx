@@ -32,8 +32,10 @@ export default function Home() {
   const wallet = useWallet();
   const connection = useConnection();
   const [searchWallet, setSearchWallet] = useState<string>();
-  const [searchingMode, setSearchingMode] = useState<number>(0);
-  const [collection, setCollection] = useState<string>('');
+  const [searchingMode, setSearchingMode] = useState<number>(1);
+  const [collection, setCollection] = useState<string>(
+    'BUjZjAS2vbbb65g7Z1Ca9ZRVYoJscURG5L3AkVvHP9ac'
+  );
   const [gridSizeDisplay, setGridSizeDisplay] =
     useState<GridSizeDisplay>(GridSizeDisplay.LITTLE);
   const {

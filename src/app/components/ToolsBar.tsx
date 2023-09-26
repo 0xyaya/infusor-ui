@@ -5,8 +5,9 @@ import {
   Button,
   Spacer,
   Input,
+  Select,
 } from '@chakra-ui/react';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { BsFillGridFill, BsFillGrid3X3GapFill } from 'react-icons/bs';
 
 export enum GridSizeDisplay {
@@ -26,7 +27,8 @@ const ToolsBar = ({
   onSearchOwner,
 }: CardInfosProps) => {
   const [searchOwner, setSearchOwner] = useState<string>();
-
+  const [selectedCollection, setSelectedCollection] =
+    useState<string>();
   const litleGridClickHandler = () => {
     onGridChange(GridSizeDisplay.LITTLE);
   };
@@ -35,23 +37,33 @@ const ToolsBar = ({
     onGridChange(GridSizeDisplay.BIG);
   };
 
-  const foxHandler = () => {
-    onSearchCollection(
-      'BUjZjAS2vbbb65g7Z1Ca9ZRVYoJscURG5L3AkVvHP9ac'
-    );
-  };
-
-  const heistHandler = () => {
-    onSearchCollection(
-      '6d9pvGuM6iG9GVuxRzSVHEQCdy44arm6oyqu6aUzrzLo'
-    );
+  const collectionChangeHandle = (
+    event: ChangeEvent<HTMLSelectElement>
+  ) => {
+    onSearchCollection(event.target.value);
   };
 
   return (
     <Box position='relative' w='100%' p='8px'>
       <HStack justifyContent='space-between'>
-        <Button onClick={foxHandler}>Famous Fox Foundation</Button>
-        <Button onClick={heistHandler}>The Heist</Button>
+        <Select
+          w='30%'
+          variant='outline'
+          placeholder='Select a collection'
+          onChange={collectionChangeHandle}
+          value={selectedCollection}
+        >
+          <option
+            value='BUjZjAS2vbbb65g7Z1Ca9ZRVYoJscURG5L3AkVvHP9ac'
+            selected
+          >
+            Famous Fox Foundation
+          </option>
+          <option value='6d9pvGuM6iG9GVuxRzSVHEQCdy44arm6oyqu6aUzrzLo'>
+            The heist
+          </option>
+        </Select>
+
         <Spacer />
         <Text>Owner Address:</Text>
         <form
