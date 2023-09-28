@@ -2,7 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    API_KEY_SECRET: process.env.API_KEY_SECRET,
+    NEXT_PUBLIC_API_KEY_SECRET:
+      process.env.NEXT_PUBLIC_API_KEY_SECRET,
   },
 };
 
