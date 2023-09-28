@@ -24,6 +24,29 @@ import OwnerDisplay from './components/OwnerDisplay';
 import CollectionDisplay from './components/CollectionDisplay';
 import ToolsBar from './components/ToolsBar';
 import { FaHeart, FaIcons, FaSeedling, FaStar } from 'react-icons/fa';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Line } from 'react-chartjs-2';
+import { faker } from '@faker-js/faker';
+import Chart from 'chart.js/auto';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const walletPublicKey =
   '3EqUrFrjgABCWAnqMYjZ36GcktiwDtFdkNYwY6C6cDzy';
@@ -106,6 +129,7 @@ export default function Home() {
             />
           </Alert>
         )}
+
         {searchWallet && searchingMode === 0 && (
           <OwnerDisplay
             wallet={new PublicKey(searchWallet)}
