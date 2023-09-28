@@ -18,6 +18,7 @@ import { useMemo } from 'react';
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 import { extendTheme } from '@chakra-ui/react';
 import { Global } from '@emotion/react';
+import { WorkspaceProvider } from './providers/ContextProvider';
 
 const Fonts = () => (
   <Global
@@ -85,7 +86,9 @@ export function Providers({
         <ConnectionProvider endpoint={endpoint}>
           <WalletProvider wallets={wallets}>
             <Fonts />
-            <WalletModalProvider>{children}</WalletModalProvider>
+            <WalletModalProvider>
+              <WorkspaceProvider>{children}</WorkspaceProvider>
+            </WalletModalProvider>
           </WalletProvider>
         </ConnectionProvider>
       </ChakraProvider>

@@ -12,6 +12,7 @@
         "@chakra-ui/icons": "^2.1.1",
         "@chakra-ui/next-js": "^2.1.5",
         "@chakra-ui/react": "^2.8.1",
+        "@coral-xyz/anchor": "^0.28.1-beta.2",
         "@faker-js/faker": "^8.1.0",
         "@solana/wallet-adapter-base": "^0.9.23",
         "@solana/wallet-adapter-react": "^0.15.34",

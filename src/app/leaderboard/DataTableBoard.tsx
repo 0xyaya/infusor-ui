@@ -7,8 +7,15 @@ import {
   Tr,
   Image,
 } from '@chakra-ui/react';
+import { InfusedAccount, LeaderBoardItem } from './InfusedAccount';
+import { subscribe } from 'diagnostics_channel';
+import { useWorkspace } from '../providers/ContextProvider';
 
-const DataTableBoard = () => {
+const DataTableBoard = ({
+  accounts,
+}: {
+  accounts: LeaderBoardItem[];
+}) => {
   return (
     <Table>
       <Thead>
@@ -21,81 +28,24 @@ const DataTableBoard = () => {
         </Tr>
       </Thead>
       <Tbody>
-        <Tr>
-          <Td>
-            <Image
-              boxSize='55px'
-              src='https://n64bqgoqm7nbbjabdc23fefhqa5pepvlvuj6v3uxzn6qx7i43nhq.arweave.net/b7gYGdBn2hCkARi1spCngDryPqutE-rul8t9C_0c208'
-              alt='Picture of something'
-              roundedTop='lg'
-              objectFit='cover'
-            />
-          </Td>
-          <Td>SMB G2 #2903</Td>
-          <Td>SMB G2</Td>
-          <Td>toly.sol</Td>
-          <Td>45tons</Td>
-        </Tr>
-        <Tr>
-          <Td>
-            <Image
-              boxSize='55px'
-              src='https://n64bqgoqm7nbbjabdc23fefhqa5pepvlvuj6v3uxzn6qx7i43nhq.arweave.net/b7gYGdBn2hCkARi1spCngDryPqutE-rul8t9C_0c208'
-              alt='Picture of something'
-              roundedTop='lg'
-              objectFit='cover'
-            />
-          </Td>
-          <Td>SMB G2 #2903</Td>
-          <Td>SMB G2</Td>
-          <Td>toly.sol</Td>
-          <Td>45tons</Td>
-        </Tr>
-        <Tr>
-          <Td>
-            <Image
-              boxSize='55px'
-              src='https://n64bqgoqm7nbbjabdc23fefhqa5pepvlvuj6v3uxzn6qx7i43nhq.arweave.net/b7gYGdBn2hCkARi1spCngDryPqutE-rul8t9C_0c208'
-              alt='Picture of something'
-              roundedTop='lg'
-              objectFit='cover'
-            />
-          </Td>
-          <Td>SMB G2 #2903</Td>
-          <Td>SMB G2</Td>
-          <Td>toly.sol</Td>
-          <Td>45tons</Td>
-        </Tr>
-        <Tr>
-          <Td>
-            <Image
-              boxSize='55px'
-              src='https://n64bqgoqm7nbbjabdc23fefhqa5pepvlvuj6v3uxzn6qx7i43nhq.arweave.net/b7gYGdBn2hCkARi1spCngDryPqutE-rul8t9C_0c208'
-              alt='Picture of something'
-              roundedTop='lg'
-              objectFit='cover'
-            />
-          </Td>
-          <Td>SMB G2 #2903</Td>
-          <Td>SMB G2</Td>
-          <Td>toly.sol</Td>
-          <Td>45tons</Td>
-        </Tr>
-        <Tr>
-          <Td>
-            <Image
-              boxSize='55px'
-              src='https://n64bqgoqm7nbbjabdc23fefhqa5pepvlvuj6v3uxzn6qx7i43nhq.arweave.net/b7gYGdBn2hCkARi1spCngDryPqutE-rul8t9C_0c208'
-              alt='Picture of something'
-              roundedTop='lg'
-              objectFit='cover'
-            />
-          </Td>
-          <Td>SMB G2 #2903</Td>
-          <Td>SMB G2</Td>
-          <Td>toly.sol</Td>
-          <Td>45tons</Td>
-        </Tr>
+        {accounts &&
+          accounts.map((account) => (
+            <Tr key={account.nftMint}>
+              <Td>
+                <Image
+                  boxSize='65px'
+                  src={account.imageUri}
+                  alt='Picture of something'
+                  roundedTop='lg'
+                  objectFit='cover'
+                />
+              </Td>
+              <Td>{account.nftMint.substring(0, 6)}...</Td>
+              <Td>{account.collection}</Td>
+              <Td>{account.owner.substring(0, 6)}...</Td>
+              <Td>{account.carbonScore}</Td>
+            </Tr>
+          ))}
       </Tbody>
     </Table>
   );

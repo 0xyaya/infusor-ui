@@ -23,7 +23,7 @@ interface CardInfosProps {
 
 const collections = [
   {
-    name: 'Famous Fox Foundation',
+    name: 'Famous Fox Federation',
     address: 'BUjZjAS2vbbb65g7Z1Ca9ZRVYoJscURG5L3AkVvHP9ac',
   },
   {

@@ -14,7 +14,6 @@ const ConnectButton = ({
   const { wallet, connect, connecting, publicKey } = useWallet();
 
   useEffect(() => {
-    console.log('HELLo');
     if (!publicKey && wallet) {
       try {
         connect();
