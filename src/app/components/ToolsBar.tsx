@@ -84,7 +84,10 @@ const ToolsBar = ({
           value={selectedCollection}
         >
           {collections.map((collection) => (
-            <option value={collection.address}>
+            <option
+              value={collection.address}
+              key={collection.address}
+            >
               {collection.name}
             </option>
           ))}
