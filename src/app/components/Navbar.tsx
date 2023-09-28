@@ -296,15 +296,11 @@ const NAV_ITEMS: Array<NavItem> = [
     href: '/',
   },
   {
-    label: 'Twitter',
-    href: 'https://twitter.com/0xTwoya',
+    label: 'Leaderboard',
+    href: '/leaderboard',
   },
   {
-    label: 'Solarplex',
-    href: 'https://solarplex.xyz/profile/yaya.live.solarplex.xyz',
-  },
-  {
-    label: 'Discord',
-    href: 'https://discord.gg/B3ASTXdU',
+    label: 'Carbon Charts',
+    href: '/charts',
   },
 ];

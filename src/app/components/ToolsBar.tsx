@@ -40,7 +40,7 @@ const collections = [
   },
   {
     name: 'SMB GEN2',
-    address: 'HNv9G2NxgZEWLxmzFqSCWYk4moUYvNrWjbq6AY2AHJKF',
+    address: 'SMBtHCCC6RYRutFEPb4gZqeBLUZbMNhRKaMKZZLHi7W',
   },
   {
     name: 'Degenerate Ape Academy',
