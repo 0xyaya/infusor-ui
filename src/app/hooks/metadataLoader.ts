@@ -12,6 +12,18 @@ export interface NftItemWithMetadata extends NftItem {
   loaded: boolean;
 }
 
+export const preloadData = (inputs: DAS.GetAssetResponse[]) => {
+  const outputs = inputs.map((input) => ({
+    mint: input.id,
+    title: '',
+    imageUri: '',
+    amount: 0,
+    loaded: false,
+  }));
+
+  return outputs;
+};
+
 export const loadMetadata = (
   inputs: DAS.GetAssetResponse[]
 ): Promise<NftItemWithMetadata[]> => {
@@ -28,6 +40,15 @@ export const loadMetadata = (
       }
 
       const result = await fetch(input.content?.json_uri);
+      if (!result) {
+        return {
+          nftMint: input.id,
+          title: '',
+          imageUri: '',
+          amount: 0,
+          loaded: false,
+        };
+      }
       const metadata = await result.json();
 
       if (!metadata) {

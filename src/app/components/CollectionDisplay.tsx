@@ -1,10 +1,11 @@
 import { PublicKey } from '@solana/web3.js';
 import useFetchCollectionItems from '../hooks/useFetchCollectionItems';
 import NftGrid, { GridSizeDisplay } from './NftGrid';
-import NftWallet from './NftCard';
+import NftCard from './NftCard';
 import {
   NftItemWithMetadata,
   loadMetadata,
+  preloadData,
 } from '../hooks/metadataLoader';
 import { useEffect, useState } from 'react';
 
@@ -21,6 +22,10 @@ const CollectionDisplay = ({
     useFetchCollectionItems(collection);
   const [fulldata, setFulldata] = useState<NftItemWithMetadata[]>([]);
 
+  const infuseHandler = (nftMint: string) => {
+    onInfuse(nftMint);
+  };
+
   useEffect(() => {
     const load = async () => {
       const loadedData = await loadMetadata(data);
@@ -34,12 +39,12 @@ const CollectionDisplay = ({
     <NftGrid display={display}>
       {fulldata &&
         fulldata.map((d) => (
-          <NftWallet
+          <NftCard
             key={d.title}
             nft={d}
             gridSizeDisplay={display}
-            onInfuse={onInfuse}
-          ></NftWallet>
+            onInfuse={infuseHandler}
+          ></NftCard>
         ))}
     </NftGrid>
   );

@@ -22,6 +22,14 @@ interface CardInfosProps {
 }
 
 const collections = [
+  // {
+  //   name: 'Carbon Tree',
+  //   address: 'Gjd4f5JJy9ebKG9t3hbwPSPnS4LPbriXbpzuZ4rk542L',
+  // },
+  // {
+  //   name: 'My NFT Collection',
+  //   address: '6x6r4nPYP2yPmguMznFAnzkNrcVW2JYLzDEv2wChDBFH',
+  // },
   {
     name: 'Famous Fox Federation',
     address: 'BUjZjAS2vbbb65g7Z1Ca9ZRVYoJscURG5L3AkVvHP9ac',

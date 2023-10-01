@@ -49,19 +49,6 @@ import {
 import { useWorkspace } from './providers/ContextProvider';
 import { BN, utils } from '@coral-xyz/anchor';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
-
-const walletPublicKey =
-  '3EqUrFrjgABCWAnqMYjZ36GcktiwDtFdkNYwY6C6cDzy';
-
 export default function Home() {
   const wallet = useWallet();
   const connection = useConnection();
@@ -200,6 +187,7 @@ export default function Home() {
           Infuse any NFT with carbon credits to tranform it in a
           eco-friendly version.
         </Text>
+
         <Spacer />
         <ToolsBar
           onGridChange={gridChangedHandler}
