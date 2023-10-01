@@ -48,10 +48,6 @@ import {
 } from 'chart.js';
 import { useWorkspace } from './providers/ContextProvider';
 import { BN, utils } from '@coral-xyz/anchor';
-import {
-  AggregatorAccount,
-  SwitchboardProgram,
-} from '@switchboard-xyz/solana.js';
 
 ChartJS.register(
   CategoryScale,
@@ -170,6 +166,7 @@ export default function Home() {
     //   switchboard,
     //   nctUsdPriceFeed
     // );
+    if (!infuseAmount) return;
     const amount = new BN(infuseAmount * LAMPORTS_PER_SOL);
     try {
       console.log('holdingAccount: ', holdingAccount.toString());
