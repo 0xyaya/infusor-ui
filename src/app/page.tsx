@@ -197,8 +197,8 @@ export default function Home() {
     >
       <VStack>
         <Text>
-          Infuse your NFT with carbon credits burned to be cool &
-          sustainable-proof!
+          Infuse any NFT with carbon credits to tranform it in a
+          eco-friendly version.
         </Text>
         <Spacer />
         <ToolsBar
@@ -212,7 +212,7 @@ export default function Home() {
         >
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Infuse your Tree</ModalHeader>
+            <ModalHeader>Infusing</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <form
@@ -225,18 +225,20 @@ export default function Home() {
                 }}
               >
                 <FormControl>
-                  <FormLabel>infused CTT</FormLabel>
+                  <FormLabel>
+                    How much carbon credits in tons?
+                  </FormLabel>
                   <Input
                     type='number'
                     variant='outline'
-                    placeholder='CTT amount'
+                    placeholder='amount'
                     value={infuseAmount}
                     onChange={(e) =>
                       setInfuseAmount(Number(e.currentTarget.value))
                     }
                   />
                   <FormHelperText>
-                    This is the amount of CTT to infused
+                    1 carbon credit cost ~1.40$
                   </FormHelperText>
                 </FormControl>
               </form>
@@ -251,7 +253,7 @@ export default function Home() {
                 type='submit'
                 form='new-form'
               >
-                Infuse Tree
+                Infuse Now
               </Button>
             </ModalFooter>
           </ModalContent>
