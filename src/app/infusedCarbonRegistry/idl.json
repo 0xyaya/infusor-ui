@@ -12,12 +12,12 @@
         },
         {
           "name": "holdingAccount",
-          "isMut": true,
+          "isMut": false,
           "isSigner": false
         },
         {
           "name": "feesAccount",
-          "isMut": true,
+          "isMut": false,
           "isSigner": false
         },
         {
@@ -31,12 +31,7 @@
           "isSigner": false
         }
       ],
-      "args": [
-        {
-          "name": "staleness",
-          "type": "u64"
-        }
-      ]
+      "args": []
     },
     {
       "name": "infuse",
@@ -67,16 +62,6 @@
           "isSigner": false
         },
         {
-          "name": "solUsdPriceFeed",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "nctUsdPriceFeed",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
           "name": "signer",
           "isMut": true,
           "isSigner": true
@@ -91,10 +76,32 @@
         {
           "name": "amount",
           "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "sendSol",
+      "accounts": [
+        {
+          "name": "from",
+          "isMut": true,
+          "isSigner": true
         },
         {
-          "name": "nctUsdPrice",
-          "type": "f64"
+          "name": "to",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
         }
       ]
     }
@@ -112,10 +119,6 @@
           {
             "name": "feesAccount",
             "type": "publicKey"
-          },
-          {
-            "name": "feedStalenessThreshold",
-            "type": "u64"
           }
         ]
       }
@@ -154,16 +157,12 @@
           {
             "name": "feesAccount",
             "type": "publicKey"
-          },
-          {
-            "name": "feedStalenessThreshold",
-            "type": "u64"
           }
         ]
       }
     }
   ],
   "metadata": {
-    "address": "3g3YSqpjbWGYSSGTEVhP3jLavuLpH3toyE6zgMUrzzoC"
+    "address": "GfnsaGsBQ2bWBdoQ2WsgcwJQAKMUBNJdx9aakWtARMs7"
   }
 }

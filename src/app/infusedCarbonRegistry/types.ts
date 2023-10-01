@@ -12,12 +12,12 @@ export type InfusedCarbonRegistry = {
         },
         {
           name: 'holdingAccount';
-          isMut: true;
+          isMut: false;
           isSigner: false;
         },
         {
           name: 'feesAccount';
-          isMut: true;
+          isMut: false;
           isSigner: false;
         },
         {
@@ -31,12 +31,7 @@ export type InfusedCarbonRegistry = {
           isSigner: false;
         }
       ];
-      args: [
-        {
-          name: 'staleness';
-          type: 'u64';
-        }
-      ];
+      args: [];
     },
     {
       name: 'infuse';
@@ -67,16 +62,6 @@ export type InfusedCarbonRegistry = {
           isSigner: false;
         },
         {
-          name: 'solUsdPriceFeed';
-          isMut: false;
-          isSigner: false;
-        },
-        {
-          name: 'nctUsdPriceFeed';
-          isMut: false;
-          isSigner: false;
-        },
-        {
           name: 'signer';
           isMut: true;
           isSigner: true;
@@ -91,10 +76,32 @@ export type InfusedCarbonRegistry = {
         {
           name: 'amount';
           type: 'u64';
+        }
+      ];
+    },
+    {
+      name: 'sendSol';
+      accounts: [
+        {
+          name: 'from';
+          isMut: true;
+          isSigner: true;
         },
         {
-          name: 'nctUsdPrice';
-          type: 'f64';
+          name: 'to';
+          isMut: true;
+          isSigner: false;
+        },
+        {
+          name: 'systemProgram';
+          isMut: false;
+          isSigner: false;
+        }
+      ];
+      args: [
+        {
+          name: 'amount';
+          type: 'u64';
         }
       ];
     }
@@ -112,10 +119,6 @@ export type InfusedCarbonRegistry = {
           {
             name: 'feesAccount';
             type: 'publicKey';
-          },
-          {
-            name: 'feedStalenessThreshold';
-            type: 'u64';
           }
         ];
       };
@@ -154,10 +157,6 @@ export type InfusedCarbonRegistry = {
           {
             name: 'feesAccount';
             type: 'publicKey';
-          },
-          {
-            name: 'feedStalenessThreshold';
-            type: 'u64';
           }
         ];
       };
@@ -179,12 +178,12 @@ export const IDL: InfusedCarbonRegistry = {
         },
         {
           name: 'holdingAccount',
-          isMut: true,
+          isMut: false,
           isSigner: false,
         },
         {
           name: 'feesAccount',
-          isMut: true,
+          isMut: false,
           isSigner: false,
         },
         {
@@ -198,12 +197,7 @@ export const IDL: InfusedCarbonRegistry = {
           isSigner: false,
         },
       ],
-      args: [
-        {
-          name: 'staleness',
-          type: 'u64',
-        },
-      ],
+      args: [],
     },
     {
       name: 'infuse',
@@ -234,16 +228,6 @@ export const IDL: InfusedCarbonRegistry = {
           isSigner: false,
         },
         {
-          name: 'solUsdPriceFeed',
-          isMut: false,
-          isSigner: false,
-        },
-        {
-          name: 'nctUsdPriceFeed',
-          isMut: false,
-          isSigner: false,
-        },
-        {
           name: 'signer',
           isMut: true,
           isSigner: true,
@@ -259,9 +243,31 @@ export const IDL: InfusedCarbonRegistry = {
           name: 'amount',
           type: 'u64',
         },
+      ],
+    },
+    {
+      name: 'sendSol',
+      accounts: [
         {
-          name: 'nctUsdPrice',
-          type: 'f64',
+          name: 'from',
+          isMut: true,
+          isSigner: true,
+        },
+        {
+          name: 'to',
+          isMut: true,
+          isSigner: false,
+        },
+        {
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false,
+        },
+      ],
+      args: [
+        {
+          name: 'amount',
+          type: 'u64',
         },
       ],
     },
@@ -279,10 +285,6 @@ export const IDL: InfusedCarbonRegistry = {
           {
             name: 'feesAccount',
             type: 'publicKey',
-          },
-          {
-            name: 'feedStalenessThreshold',
-            type: 'u64',
           },
         ],
       },
@@ -321,10 +323,6 @@ export const IDL: InfusedCarbonRegistry = {
           {
             name: 'feesAccount',
             type: 'publicKey',
-          },
-          {
-            name: 'feedStalenessThreshold',
-            type: 'u64',
           },
         ],
       },

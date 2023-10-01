@@ -15,7 +15,7 @@ const CollectionDisplay = ({
 }: {
   collection: PublicKey;
   display: GridSizeDisplay;
-  onInfuse: () => void;
+  onInfuse: (nftMint: string) => void;
 }) => {
   const { error, isLoaded, data } =
     useFetchCollectionItems(collection);

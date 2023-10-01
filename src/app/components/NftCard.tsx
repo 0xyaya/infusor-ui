@@ -29,13 +29,15 @@ const NftCard = ({
   gridSizeDisplay,
 }: {
   nft: NftItemWithMetadata;
-  onInfuse: () => void;
+  onInfuse: (nftMint: string) => void;
   gridSizeDisplay?: GridSizeDisplay;
 }) => {
   const [isHover, setIsHover] = useState<boolean>(false);
   const wallet = useAnchorWallet();
   const connection = useConnection();
-  const clickHandler = () => {};
+  const onInfuseHandler = () => {
+    onInfuse(nft.nftMint);
+  };
 
   const mouseEnterHandler = () => {
     setIsHover(true);
@@ -56,7 +58,6 @@ const NftCard = ({
       borderWidth='1px'
       rounded='lg'
       position='relative'
-      onClick={clickHandler}
       onMouseEnter={mouseEnterHandler}
       onMouseLeave={mouseLeaveHandler}
     >
@@ -126,7 +127,7 @@ const NftCard = ({
           m='0'
           w='100%'
           colorScheme='aquamarine'
-          onClick={onInfuse}
+          onClick={onInfuseHandler}
         >
           Infuse
         </Button>
