@@ -1,36 +1,14 @@
 'use client';
-
 import { Box } from '@chakra-ui/react';
-import { createColumnHelper } from '@tanstack/react-table';
 import DataTableBoard from './DataTableBoard';
-import fromInfusedAccount from './utils';
 import { useEffect, useState } from 'react';
-import { InfusedAccount, LeaderBoardItem } from './InfusedAccount';
-import { useWorkspace } from '../providers/ContextProvider';
+import { LeaderBoardItem } from './InfusedAccount';
 import {
   useAnchorWallet,
   useConnection,
-  useWallet,
 } from '@solana/wallet-adapter-react';
 import { getInfusedAccounts } from '../infusedCarbonRegistry/client';
 
-const infusedAccounts = [
-  {
-    nftMint: 'JEH7cJxAKdprFG5AvdsY2c4ZqojxLBjFmw19zADV6oK5',
-    carbonScore: 1,
-    owner: '98cçx87',
-  },
-  {
-    nftMint: 'JEEqUNmR1EDmDrwZUL3L49cciBQUP264BrNAkyGS3Zoc',
-    carbonScore: 12,
-    owner: '98cçx87',
-  },
-  {
-    nftMint: 'JECsxP3MYFV1NEHXtb4MVogQBMQqf17vcVrSyxdo6v7Q',
-    carbonScore: 9,
-    owner: '98cçx87',
-  },
-];
 // const data: InfusedAccount[] = [
 //   {
 //     name: 'SMB GEN2 #2901',
@@ -54,7 +32,7 @@ const infusedAccounts = [
 //     carbonScore: 25.4,
 //   },
 // ];
-const Leaderboard = () => {
+export const Leaderboard = () => {
   const [items, setItems] = useState<LeaderBoardItem[]>([]);
   const connection = useConnection();
   const wallet = useAnchorWallet();
@@ -62,18 +40,16 @@ const Leaderboard = () => {
   useEffect(() => {
     const leaderboard = async () => {
       if (!wallet) return;
-      console.log('test');
       const loadedItems = await getInfusedAccounts(
         wallet,
         connection
       );
-      console.log('loadedItems: ', loadedItems);
       if (!loadedItems) return;
       setItems(loadedItems);
     };
 
     leaderboard();
-  }, [wallet, connection]);
+  }, []);
 
   return (
     <Box
@@ -88,5 +64,3 @@ const Leaderboard = () => {
     </Box>
   );
 };
-
-export default Leaderboard;

@@ -1,7 +1,11 @@
+import * as anchor from '@coral-xyz/anchor';
+import { Keypair, PublicKey, Transaction } from '@solana/web3.js';
+
 export interface InfusedAccount {
-  nftMint: string;
-  owner: string;
+  nftMint: PublicKey;
+  // owner: string;
   carbonScore: number;
+  lastInfusedTime: anchor.BN;
 }
 
 export interface LeaderBoardItem {
@@ -10,5 +14,5 @@ export interface LeaderBoardItem {
   name: string;
   collection: string;
   owner: string;
-  carbonScore: number;
+  carbonScore: string;
 }

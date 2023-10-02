@@ -26,6 +26,7 @@ import {
   ModalBody,
 } from '@chakra-ui/react';
 import {
+  useAnchorWallet,
   useConnection,
   useWallet,
 } from '@solana/wallet-adapter-react';
@@ -36,21 +37,16 @@ import OwnerDisplay from './components/OwnerDisplay';
 import CollectionDisplay from './components/CollectionDisplay';
 import ToolsBar from './components/ToolsBar';
 import { FaHeart, FaIcons, FaSeedling, FaStar } from 'react-icons/fa';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
 import { useWorkspace } from './providers/ContextProvider';
 import { BN, utils } from '@coral-xyz/anchor';
+import { infuse, send } from './infusedCarbonRegistry/client';
+
+const walletPublicKey =
+  '3EqUrFrjgABCWAnqMYjZ36GcktiwDtFdkNYwY6C6cDzy';
 
 export default function Home() {
   const wallet = useWallet();
+  const anchorWallet = useAnchorWallet();
   const connection = useConnection();
   const [searchWallet, setSearchWallet] = useState<string>();
   const [searchingMode, setSearchingMode] = useState<number>(1);
@@ -121,17 +117,18 @@ export default function Home() {
     onInfusedModalOpen();
   };
 
-  const infuse = async (nftMint: PublicKey) => {
+  const infuseNft = async (nftMint: PublicKey) => {
     console.log('Infusing ...');
     if (!state) return;
     if (!program) return;
+    if (!anchorWallet) return;
     if (!workspace.provider) return;
     if (!workspace.provider.publicKey) return;
 
-    const [infusedAccount] = PublicKey.findProgramAddressSync(
-      [utils.bytes.utf8.encode('infused-account'), nftMint.toBytes()],
-      program.programId
-    );
+    // const [infusedAccount] = PublicKey.findProgramAddressSync(
+    //   [utils.bytes.utf8.encode('infused-account'), nftMint.toBytes()],
+    //   program.programId
+    // );
 
     // const nctUsdPriceFeed = new PublicKey(
     //   '4YL36VBtFkD2zfNGWdGFSc5suvskjrHnx3Asuksyek1J'
@@ -153,25 +150,29 @@ export default function Home() {
     //   switchboard,
     //   nctUsdPriceFeed
     // );
-    if (!infuseAmount) return;
-    const amount = new BN(infuseAmount * LAMPORTS_PER_SOL);
-    try {
-      console.log('holdingAccount: ', holdingAccount.toString());
-      const tx = await program?.methods
-        .infuse(amount)
-        .accounts({
-          globalRegistry: state,
-          feesAccount,
-          holdingAccount,
-          nftMint,
-          infusedAccount,
-        })
-        .rpc();
-
-      console.log('tx: ', tx);
-    } catch (e) {
-      console.log();
-    }
+    // const tx = await program?.methods
+    //   .infuse(bn)
+    //   .accounts({
+    //     globalRegistry: state,
+    //     feesAccount,
+    //     holdingAccount,
+    //     nftMint,
+    //     infusedAccount,
+    //   })
+    //   .rpc();
+    // const tx = await program?.methods
+    //   .sendSol(amount)
+    //   .accounts({
+    //     from: workspace.provider.publicKey,
+    //     to: holdingAccount,
+    //   })
+    //   .rpc();
+    await infuse(
+      anchorWallet,
+      connection,
+      new BN(infuseAmount),
+      nftMint
+    );
   };
 
   return (
@@ -208,8 +209,8 @@ export default function Home() {
                 onSubmit={(event) => {
                   event.preventDefault();
                   onInfusedModalClose();
-                  onAlertOpen();
-                  // if (nftToInfuse) infuse(new PublicKey(nftToInfuse));
+                  if (nftToInfuse)
+                    infuseNft(new PublicKey(nftToInfuse));
                 }}
               >
                 <FormControl>

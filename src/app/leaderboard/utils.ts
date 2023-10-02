@@ -8,28 +8,39 @@ const helius = new Helius(
 );
 
 const fromInfusedAccount = async (account: InfusedAccount) => {
-  const item = await helius.rpc.getAsset(account.nftMint);
-
-  if (!item.content)
+  console.log('Starting helius request...');
+  console.log('Input params: ', account.nftMint.toString());
+  const item = await helius.rpc.getAsset(account.nftMint.toString());
+  if (!item)
     return {
-      nftMint: account.nftMint,
+      nftMint: account.nftMint.toString(),
       imageUri: '',
       name: 'defaultName',
       collection: 'defaultCollection',
       owner: 'defaultOwner',
-      carbonScore: 0,
+      carbonScore: '0',
+    };
+  console.log('Helius request result: ', item);
+  if (!item.content)
+    return {
+      nftMint: account.nftMint.toString(),
+      imageUri: '',
+      name: 'defaultName',
+      collection: 'defaultCollection',
+      owner: 'defaultOwner',
+      carbonScore: '0',
     };
 
   const response = await fetch(item.content?.json_uri);
   const metadata = await response.json();
 
   const result = {
-    nftMint: account.nftMint,
+    nftMint: account.nftMint.toString(),
     imageUri: metadata.image,
     name: metadata.name,
     collection: metadata.collection.name,
     owner: item.ownership.owner.toString(),
-    carbonScore: 1,
+    carbonScore: account.carbonScore.toString(),
   };
 
   console.log('Result: ', result);

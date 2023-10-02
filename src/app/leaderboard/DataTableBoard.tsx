@@ -7,9 +7,7 @@ import {
   Tr,
   Image,
 } from '@chakra-ui/react';
-import { InfusedAccount, LeaderBoardItem } from './InfusedAccount';
-import { subscribe } from 'diagnostics_channel';
-import { useWorkspace } from '../providers/ContextProvider';
+import { LeaderBoardItem } from './InfusedAccount';
 
 const DataTableBoard = ({
   accounts,
@@ -30,7 +28,7 @@ const DataTableBoard = ({
       <Tbody>
         {accounts &&
           accounts.map((account) => (
-            <Tr key={account.nftMint}>
+            <Tr key={account.nftMint.toString()}>
               <Td>
                 <Image
                   boxSize='65px'
@@ -40,7 +38,7 @@ const DataTableBoard = ({
                   objectFit='cover'
                 />
               </Td>
-              <Td>{account.nftMint.substring(0, 6)}...</Td>
+              <Td>{account.nftMint.toString().substring(0, 6)}...</Td>
               <Td>{account.collection}</Td>
               <Td>{account.owner.substring(0, 6)}...</Td>
               <Td>{account.carbonScore}</Td>

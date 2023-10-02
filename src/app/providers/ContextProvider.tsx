@@ -10,7 +10,7 @@ import {
   useAnchorWallet,
   useConnection,
 } from '@solana/wallet-adapter-react';
-import IDL from '../infusedCarbonRegistry/idl.json';
+import IDL from '../infusedCarbonRegistry/infused_carbon_registry.json';
 import { InfusedCarbonRegistry } from '../infusedCarbonRegistry/types';
 import MockWallet from './mockWallet';
 const WorkspaceContext = createContext({});
