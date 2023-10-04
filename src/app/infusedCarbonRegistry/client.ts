@@ -82,8 +82,6 @@ export const infuse = async (
     program.programId
   );
 
-  console.log('test');
-
   try {
     const transactionSignature = await program.methods
       .infuse(amount)

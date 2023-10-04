@@ -28,6 +28,7 @@ import { useWorkspace } from './providers/ContextProvider';
 import { BN, utils } from '@coral-xyz/anchor';
 import { infuse } from './infusedCarbonRegistry/client';
 import InfuseModal from './components/infuseModal';
+import InfusedAlert from './components/InfusedAlert';
 
 export default function Home() {
   const wallet = useWallet();
@@ -109,7 +110,6 @@ export default function Home() {
   };
 
   const infuseNft = async (amount: number) => {
-    console.log('Infusing ...');
     if (!state) return;
     if (!program) return;
     if (!provider) return;
@@ -146,25 +146,7 @@ export default function Home() {
           onClose={onInfusedModalClose}
           onInfuse={infuseNft}
         />
-        {isVisible && (
-          <Alert status='success'>
-            <AlertIcon />
-            <Box width='100%'>
-              <AlertTitle>
-                infused with love <Icon as={FaHeart} />
-              </AlertTitle>
-              <AlertDescription>
-                <Text>but nothing happened!</Text>
-              </AlertDescription>
-            </Box>
-            <CloseButton
-              position='relative'
-              right={-1}
-              top={-1}
-              onClick={onAlertClose}
-            />
-          </Alert>
-        )}
+        {isVisible && <InfusedAlert onClose={onAlertClose} />}
 
         {searchWallet && searchingMode === 0 && (
           <OwnerDisplay
