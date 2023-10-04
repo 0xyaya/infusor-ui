@@ -39,20 +39,17 @@ import ToolsBar from './components/ToolsBar';
 import { FaHeart, FaIcons, FaSeedling, FaStar } from 'react-icons/fa';
 import { useWorkspace } from './providers/ContextProvider';
 import { BN, utils } from '@coral-xyz/anchor';
-import { infuse, send } from './infusedCarbonRegistry/client';
-
-const walletPublicKey =
-  '3EqUrFrjgABCWAnqMYjZ36GcktiwDtFdkNYwY6C6cDzy';
+import { infuse } from './infusedCarbonRegistry/client';
 
 export default function Home() {
   const wallet = useWallet();
   const anchorWallet = useAnchorWallet();
-  const connection = useConnection();
+  // const connection = useConnection();
   const [searchWallet, setSearchWallet] = useState<string>();
   const [searchingMode, setSearchingMode] = useState<number>(1);
   const [infuseAmount, setInfuseAmount] = useState<number>();
   const [nftToInfuse, setNftToInfuse] = useState<string>();
-  const workspace = useWorkspace();
+  const { program, provider, connection } = useWorkspace();
   const [state, setState] = useState<PublicKey>();
   const {
     isOpen: isInfusedModalOpen,
@@ -79,21 +76,30 @@ export default function Home() {
   } = useDisclosure({ defaultIsOpen: false });
 
   useEffect(() => {
+    if (!program) return;
+    const [statePda] = PublicKey.findProgramAddressSync(
+      [utils.bytes.utf8.encode('global-registry')],
+      program.programId
+    );
+    setState(statePda);
+  }, [program]);
+
+  useEffect(() => {
     const syncWallet = async () => {
       if (wallet.publicKey && !searchWallet)
         setSearchWallet(wallet.publicKey.toString());
     };
     syncWallet();
-  }, [wallet, workspace.connection, searchingMode]);
+  }, [wallet, connection, searchingMode]);
 
   useEffect(() => {
-    if (!workspace.program) return;
+    if (!program) return;
     const [statePda] = PublicKey.findProgramAddressSync(
       [utils.bytes.utf8.encode('global-registry')],
-      workspace.program.programId
+      program.programId
     );
     setState(statePda);
-  }, [workspace]);
+  }, [program]);
 
   const searchCollectionHandler = (collection: string) => {
     setCollection(collection);
@@ -119,13 +125,15 @@ export default function Home() {
   const infuseNft = async (nftMint: PublicKey) => {
     console.log('Infusing ...');
     if (!state) return;
-    if (!workspace.program) return;
+    if (!program) return;
+    if (!provider) return;
+    if (!connection) return;
     if (!anchorWallet) return;
 
-    // const [infusedAccount] = PublicKey.findProgramAddressSync(
-    //   [utils.bytes.utf8.encode('infused-account'), nftMint.toBytes()],
-    //   program.programId
-    // );
+    const [infusedAccount] = PublicKey.findProgramAddressSync(
+      [utils.bytes.utf8.encode('infused-account'), nftMint.toBytes()],
+      program.programId
+    );
 
     // const nctUsdPriceFeed = new PublicKey(
     //   '4YL36VBtFkD2zfNGWdGFSc5suvskjrHnx3Asuksyek1J'
@@ -164,13 +172,7 @@ export default function Home() {
     //     to: holdingAccount,
     //   })
     //   .rpc();
-    await await infuse(
-      workspace.program,
-      anchorWallet,
-      connection,
-      new BN(infuseAmount),
-      nftMint
-    );
+    await infuse(program, new BN(infuseAmount), nftMint);
   };
 
   return (

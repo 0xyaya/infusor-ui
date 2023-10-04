@@ -16,29 +16,6 @@ const tokenMetadataPID = new PublicKey(
   'metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s'
 );
 
-export const send = async (
-  wallet: AnchorWallet,
-  connection: ConnectionContextState,
-  amount: anchor.BN
-) => {
-  const program = getProgramInstance(connection, wallet);
-  const holdingAccount = new PublicKey(
-    '3bQhuVsa1sU5mZYJYmpWAN9jLNCM5xxk2RNtrqehfYuh'
-  );
-  try {
-    const transactionSignature = await program.methods
-      .sendSol(amount)
-      .accounts({
-        from: wallet.publicKey,
-        to: holdingAccount,
-        systemProgram: anchor.web3.SystemProgram.programId,
-      })
-      .rpc();
-  } catch (e) {
-    console.log(e);
-  }
-};
-
 // export const infuse = async (
 //   wallet: AnchorWallet,
 //   connection: ConnectionContextState,
@@ -84,8 +61,6 @@ export const send = async (
 
 export const infuse = async (
   program: anchor.Program<InfusedCarbonRegistry>,
-  wallet: AnchorWallet,
-  connection: ConnectionContextState,
   amount: anchor.BN,
   nftMint: PublicKey
 ) => {
