@@ -12,22 +12,9 @@ import {
   Icon,
   CloseButton,
   useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  FormControl,
-  FormLabel,
-  FormHelperText,
-  Input,
-  ModalFooter,
-  Button,
-  ModalBody,
 } from '@chakra-ui/react';
 import {
   useAnchorWallet,
-  useConnection,
   useWallet,
 } from '@solana/wallet-adapter-react';
 import { useEffect, useState } from 'react';
@@ -36,18 +23,17 @@ import { PublicKey, LAMPORTS_PER_SOL } from '@solana/web3.js';
 import OwnerDisplay from './components/OwnerDisplay';
 import CollectionDisplay from './components/CollectionDisplay';
 import ToolsBar from './components/ToolsBar';
-import { FaHeart, FaIcons, FaSeedling, FaStar } from 'react-icons/fa';
+import { FaHeart } from 'react-icons/fa';
 import { useWorkspace } from './providers/ContextProvider';
 import { BN, utils } from '@coral-xyz/anchor';
 import { infuse } from './infusedCarbonRegistry/client';
+import InfuseModal from './components/infuseModal';
 
 export default function Home() {
   const wallet = useWallet();
   const anchorWallet = useAnchorWallet();
-  // const connection = useConnection();
   const [searchWallet, setSearchWallet] = useState<string>();
   const [searchingMode, setSearchingMode] = useState<number>(1);
-  const [infuseAmount, setInfuseAmount] = useState<number>();
   const [nftToInfuse, setNftToInfuse] = useState<string>();
   const { program, provider, connection } = useWorkspace();
   const [state, setState] = useState<PublicKey>();
@@ -122,57 +108,18 @@ export default function Home() {
     onInfusedModalOpen();
   };
 
-  const infuseNft = async (nftMint: PublicKey) => {
+  const infuseNft = async (amount: number) => {
     console.log('Infusing ...');
     if (!state) return;
     if (!program) return;
     if (!provider) return;
     if (!connection) return;
     if (!anchorWallet) return;
+    if (!nftToInfuse) return;
 
-    const [infusedAccount] = PublicKey.findProgramAddressSync(
-      [utils.bytes.utf8.encode('infused-account'), nftMint.toBytes()],
-      program.programId
-    );
+    const nftMintPK = new PublicKey(nftToInfuse);
 
-    // const nctUsdPriceFeed = new PublicKey(
-    //   '4YL36VBtFkD2zfNGWdGFSc5suvskjrHnx3Asuksyek1J'
-    // );
-    // const solUsdPriceFeed = new PublicKey(
-    //   'GvDMxPzN1sCj7L26YDK2HnMRXEQmQ2aemov8YBtPS7vR'
-    // );
-
-    // const switchboard = await SwitchboardProgram.fromProvider(
-    //   workspace.provider
-    // );
-
-    // const aggregatorAccount = new AggregatorAccount(
-    //   switchboard,
-    //   solUsdPriceFeed
-    // );
-
-    // const aggregatorAccountNctUsd = new AggregatorAccount(
-    //   switchboard,
-    //   nctUsdPriceFeed
-    // );
-    // const tx = await program?.methods
-    //   .infuse(bn)
-    //   .accounts({
-    //     globalRegistry: state,
-    //     feesAccount,
-    //     holdingAccount,
-    //     nftMint,
-    //     infusedAccount,
-    //   })
-    //   .rpc();
-    // const tx = await program?.methods
-    //   .sendSol(amount)
-    //   .accounts({
-    //     from: workspace.provider.publicKey,
-    //     to: holdingAccount,
-    //   })
-    //   .rpc();
-    await infuse(program, new BN(infuseAmount), nftMint);
+    await infuse(program, new BN(amount), nftMintPK);
   };
 
   return (
@@ -194,58 +141,11 @@ export default function Home() {
           onSearchCollection={searchCollectionHandler}
           onSearchOwner={searchOwnerHandler}
         />
-        <Modal
+        <InfuseModal
           isOpen={isInfusedModalOpen}
           onClose={onInfusedModalClose}
-        >
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Infusing</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <form
-                id='new-form'
-                onSubmit={(event) => {
-                  event.preventDefault();
-                  onInfusedModalClose();
-                  if (nftToInfuse)
-                    infuseNft(new PublicKey(nftToInfuse));
-                }}
-              >
-                <FormControl>
-                  <FormLabel>
-                    How much carbon credits in tons?
-                  </FormLabel>
-                  <Input
-                    type='number'
-                    variant='outline'
-                    placeholder='amount'
-                    value={infuseAmount}
-                    onChange={(e) =>
-                      setInfuseAmount(Number(e.currentTarget.value))
-                    }
-                  />
-                  <FormHelperText>
-                    1 carbon credit cost ~1.40$
-                  </FormHelperText>
-                </FormControl>
-              </form>
-            </ModalBody>
-
-            <ModalFooter>
-              <Button mr={3} onClick={onInfusedModalClose}>
-                Close
-              </Button>
-              <Button
-                colorScheme='aquamarine'
-                type='submit'
-                form='new-form'
-              >
-                Infuse Now
-              </Button>
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
+          onInfuse={infuseNft}
+        />
         {isVisible && (
           <Alert status='success'>
             <AlertIcon />
@@ -270,7 +170,7 @@ export default function Home() {
           <OwnerDisplay
             wallet={new PublicKey(searchWallet)}
             display={gridSizeDisplay}
-            onInfuse={onAlertOpen}
+            onInfuse={infuseHandler}
           />
         )}
         {searchingMode === 1 && (

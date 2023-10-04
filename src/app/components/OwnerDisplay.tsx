@@ -15,7 +15,7 @@ const OwnerDisplay = ({
 }: {
   wallet: PublicKey;
   display: GridSizeDisplay;
-  onInfuse: () => void;
+  onInfuse: (nftMint: string) => void;
 }) => {
   const { isLoaded, error, data } = useFetchOwnerItems(wallet);
   const [fulldata, setFulldata] = useState<NftItemWithMetadata[]>([]);
@@ -28,6 +28,7 @@ const OwnerDisplay = ({
 
     load();
   }, [data]);
+
   return (
     <NftGrid display={display}>
       {fulldata &&
