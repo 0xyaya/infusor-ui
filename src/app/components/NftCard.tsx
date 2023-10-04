@@ -29,35 +29,16 @@ const NftCard = ({
   gridSizeDisplay,
 }: {
   nft: NftItemWithMetadata;
-<<<<<<< HEAD
-<<<<<<< HEAD
   onInfuse: (nftMint: string) => void;
-=======
-  onInfuse: (nftMint: PublicKey) => void;
->>>>>>> 479e66a (infusing stuff)
-=======
-  onInfuse: (nftMint: string) => void;
->>>>>>> 0ccdd6c (infusing & leaderboard merge)
   gridSizeDisplay?: GridSizeDisplay;
 }) => {
   const [isHover, setIsHover] = useState<boolean>(false);
   const wallet = useAnchorWallet();
   const connection = useConnection();
-<<<<<<< HEAD
-<<<<<<< HEAD
-  const onInfuseHandler = () => {
-    onInfuse(nft.nftMint);
-=======
 
   const infuseHandler = () => {
-    onInfuse(new PublicKey(nft.mint));
->>>>>>> 479e66a (infusing stuff)
-=======
-  const onInfuseHandler = () => {
     onInfuse(nft.nftMint);
->>>>>>> 0ccdd6c (infusing & leaderboard merge)
   };
-
   const mouseEnterHandler = () => {
     setIsHover(true);
   };
@@ -146,15 +127,7 @@ const NftCard = ({
           m='0'
           w='100%'
           colorScheme='aquamarine'
-<<<<<<< HEAD
-<<<<<<< HEAD
-          onClick={onInfuseHandler}
-=======
           onClick={infuseHandler}
->>>>>>> 479e66a (infusing stuff)
-=======
-          onClick={onInfuseHandler}
->>>>>>> 0ccdd6c (infusing & leaderboard merge)
         >
           Infuse
         </Button>
