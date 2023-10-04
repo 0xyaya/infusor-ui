@@ -15,7 +15,7 @@ import { InfusedCarbonRegistry } from '../infusedCarbonRegistry/types';
 import MockWallet from './mockWallet';
 const WorkspaceContext = createContext({});
 const programId = new PublicKey(
-  '3g3YSqpjbWGYSSGTEVhP3jLavuLpH3toyE6zgMUrzzoC'
+  'GfnsaGsBQ2bWBdoQ2WsgcwJQAKMUBNJdx9aakWtARMs7'
 );
 
 interface WorkSpace {

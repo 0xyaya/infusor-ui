@@ -58,16 +58,17 @@ const Leaderboard = () => {
   const [items, setItems] = useState<LeaderBoardItem[]>([]);
   const connection = useConnection();
   const wallet = useAnchorWallet();
+  const workspace = useWorkspace();
 
   useEffect(() => {
     const leaderboard = async () => {
       if (!wallet) return;
-      console.log('test');
+      if (!workspace.program) return;
       const loadedItems = await getInfusedAccounts(
+        workspace.program,
         wallet,
         connection
       );
-      console.log('loadedItems: ', loadedItems);
       if (!loadedItems) return;
       setItems(loadedItems);
     };

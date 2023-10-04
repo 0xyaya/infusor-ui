@@ -32,35 +32,35 @@ import { getInfusedAccounts } from '../infusedCarbonRegistry/client';
 //     carbonScore: 25.4,
 //   },
 // ];
-export const Leaderboard = () => {
-  const [items, setItems] = useState<LeaderBoardItem[]>([]);
-  const connection = useConnection();
-  const wallet = useAnchorWallet();
+// export const Leaderboard = () => {
+//   const [items, setItems] = useState<LeaderBoardItem[]>([]);
+//   const connection = useConnection();
+//   const wallet = useAnchorWallet();
 
-  useEffect(() => {
-    const leaderboard = async () => {
-      if (!wallet) return;
-      const loadedItems = await getInfusedAccounts(
-        wallet,
-        connection
-      );
-      if (!loadedItems) return;
-      setItems(loadedItems);
-    };
+//   useEffect(() => {
+//     const leaderboard = async () => {
+//       if (!wallet) return;
+//       const loadedItems = await getInfusedAccounts(
+//         wallet,
+//         connection
+//       );
+//       if (!loadedItems) return;
+//       setItems(loadedItems);
+//     };
 
-    leaderboard();
-  }, []);
+//     leaderboard();
+//   }, []);
 
-  return (
-    <Box
-      maxW='7xl'
-      mx='auto'
-      minHeight='100vh'
-      px={{ base: '4', md: '8', lg: '10' }}
-      py={{ base: '6', md: '8', lg: '10' }}
-    >
-      {items && <DataTableBoard accounts={items} />}
-      {/* <DataTable columns={columns} data={data} /> */}
-    </Box>
-  );
-};
+//   return (
+//     <Box
+//       maxW='7xl'
+//       mx='auto'
+//       minHeight='100vh'
+//       px={{ base: '4', md: '8', lg: '10' }}
+//       py={{ base: '6', md: '8', lg: '10' }}
+//     >
+//       {items && <DataTableBoard accounts={items} />}
+//       {/* <DataTable columns={columns} data={data} /> */}
+//     </Box>
+//   );
+// };

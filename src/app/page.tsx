@@ -53,7 +53,6 @@ export default function Home() {
   const [infuseAmount, setInfuseAmount] = useState<number>();
   const [nftToInfuse, setNftToInfuse] = useState<string>();
   const workspace = useWorkspace();
-  const program = workspace.program;
   const [state, setState] = useState<PublicKey>();
   const {
     isOpen: isInfusedModalOpen,
@@ -80,21 +79,21 @@ export default function Home() {
   } = useDisclosure({ defaultIsOpen: false });
 
   useEffect(() => {
-    if (!program) return;
-    const [statePda] = PublicKey.findProgramAddressSync(
-      [utils.bytes.utf8.encode('global-registry')],
-      program.programId
-    );
-    setState(statePda);
-  }, [workspace]);
-
-  useEffect(() => {
     const syncWallet = async () => {
       if (wallet.publicKey && !searchWallet)
         setSearchWallet(wallet.publicKey.toString());
     };
     syncWallet();
-  }, [wallet, connection, searchingMode]);
+  }, [wallet, workspace.connection, searchingMode]);
+
+  useEffect(() => {
+    if (!workspace.program) return;
+    const [statePda] = PublicKey.findProgramAddressSync(
+      [utils.bytes.utf8.encode('global-registry')],
+      workspace.program.programId
+    );
+    setState(statePda);
+  }, [workspace]);
 
   const searchCollectionHandler = (collection: string) => {
     setCollection(collection);
@@ -120,10 +119,8 @@ export default function Home() {
   const infuseNft = async (nftMint: PublicKey) => {
     console.log('Infusing ...');
     if (!state) return;
-    if (!program) return;
+    if (!workspace.program) return;
     if (!anchorWallet) return;
-    if (!workspace.provider) return;
-    if (!workspace.provider.publicKey) return;
 
     // const [infusedAccount] = PublicKey.findProgramAddressSync(
     //   [utils.bytes.utf8.encode('infused-account'), nftMint.toBytes()],
@@ -167,7 +164,8 @@ export default function Home() {
     //     to: holdingAccount,
     //   })
     //   .rpc();
-    await infuse(
+    await await infuse(
+      workspace.program,
       anchorWallet,
       connection,
       new BN(infuseAmount),
@@ -188,7 +186,6 @@ export default function Home() {
           Infuse any NFT with carbon credits to tranform it in a
           eco-friendly version.
         </Text>
-
         <Spacer />
         <ToolsBar
           onGridChange={gridChangedHandler}

@@ -33,11 +33,33 @@ const fromInfusedAccount = async (account: InfusedAccount) => {
 
   const response = await fetch(item.content?.json_uri);
   const metadata = await response.json();
+  if (!metadata) {
+    return {
+      nftMint: account.nftMint.toString(),
+      imageUri: '',
+      name: 'defaultName',
+      collection: 'defaultCollection',
+      owner: 'defaultOwner',
+      carbonScore: '0',
+    };
+  }
+
+  if (!metadata.collection) {
+    return {
+      nftMint: account.nftMint.toString(),
+      imageUri: metadata.image,
+      name: metadata.name ? metadata.name : 'test',
+      collection: 'TMP Collection',
+      owner: item.ownership.owner.toString(),
+      carbonScore: account.carbonScore.toString(),
+    };
+  }
+  console.log('COLLECTION UNDEFINED: ', item.content.metadata);
 
   const result = {
     nftMint: account.nftMint.toString(),
     imageUri: metadata.image,
-    name: metadata.name,
+    name: metadata.name ? metadata.name : 'test',
     collection: metadata.collection.name,
     owner: item.ownership.owner.toString(),
     carbonScore: account.carbonScore.toString(),
