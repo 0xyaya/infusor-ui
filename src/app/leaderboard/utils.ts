@@ -1,4 +1,4 @@
-import { Helius } from 'helius-sdk';
+import { DAS, Helius } from 'helius-sdk';
 import { InfusedAccount, LeaderBoardItem } from './InfusedAccount';
 import { formatWithOptions } from 'util';
 
@@ -7,67 +7,73 @@ const helius = new Helius(
   'mainnet-beta'
 );
 
-const fromInfusedAccount = async (account: InfusedAccount) => {
-  console.log('Starting helius request...');
-  console.log('Input params: ', account.nftMint.toString());
-  const item = await helius.rpc.getAsset(account.nftMint.toString());
-  if (!item)
-    return {
-      nftMint: account.nftMint.toString(),
-      imageUri: '',
-      name: 'defaultName',
-      collection: 'defaultCollection',
-      owner: 'defaultOwner',
-      carbonScore: '0',
-    };
-  console.log('Helius request result: ', item);
-  if (!item.content)
-    return {
-      nftMint: account.nftMint.toString(),
-      imageUri: '',
-      name: 'defaultName',
-      collection: 'defaultCollection',
-      owner: 'defaultOwner',
-      carbonScore: '0',
-    };
-
-  const response = await fetch(item.content?.json_uri);
-  const metadata = await response.json();
-  if (!metadata) {
-    return {
-      nftMint: account.nftMint.toString(),
-      imageUri: '',
-      name: 'defaultName',
-      collection: 'defaultCollection',
-      owner: 'defaultOwner',
-      carbonScore: '0',
-    };
-  }
-
-  if (!metadata.collection) {
-    return {
-      nftMint: account.nftMint.toString(),
-      imageUri: metadata.image,
-      name: metadata.name ? metadata.name : 'test',
-      collection: 'TMP Collection',
-      owner: item.ownership.owner.toString(),
-      carbonScore: account.carbonScore.toString(),
-    };
-  }
-  console.log('COLLECTION UNDEFINED: ', item.content.metadata);
-
-  const result = {
-    nftMint: account.nftMint.toString(),
-    imageUri: metadata.image,
-    name: metadata.name ? metadata.name : 'test',
-    collection: metadata.collection.name,
-    owner: item.ownership.owner.toString(),
-    carbonScore: account.carbonScore.toString(),
-  };
-
-  console.log('Result: ', result);
-
-  return result;
+export const getAsset = async (account: InfusedAccount) => {
+  return await helius.rpc.getAsset(account.nftMint.toString());
 };
 
-export default fromInfusedAccount;
+export const filter = async (data: DAS.GetAssetResponse) => {
+  if (!data) return false;
+  if (!data.content) return false;
+
+  const response = await fetch(data.content?.json_uri);
+  const metadata = await response.json();
+
+  if (!metadata) return false;
+  if (!metadata.collection) return false;
+  return true;
+};
+
+export const loadedInfusedAccount = async (
+  account: InfusedAccount
+) => {
+  const defaultAccount = {
+    nftMint: account.nftMint,
+    imageUri: 'images.png',
+    name: 'unloaded name',
+    collection: 'unloaded collection',
+    owner: 'unloaded owner',
+    carbonScore: account.carbonScore,
+  };
+  const data = await helius.rpc.getAsset(account.nftMint.toString());
+
+  if (!data) return defaultAccount;
+  if (!data.content) return defaultAccount;
+
+  const response = await fetch(data.content?.json_uri);
+  const metadata = await response.json();
+
+  if (!metadata) return defaultAccount;
+  if (!metadata.collection) return defaultAccount;
+
+  return {
+    nftMint: account.nftMint,
+    imageUri: metadata.image ? metadata.image : 'images.png',
+    name: metadata.name,
+    collection: metadata.collection.name
+      ? metadata.collection.name
+      : 'test',
+    owner: data.ownership.owner ? data.ownership.owner : 'test',
+    carbonScore: account.carbonScore.toString(),
+  } as unknown as LeaderBoardItem;
+};
+
+const filterAccounts = async (mappedAccounts: InfusedAccount[]) => {
+  const filterMissLoaded = async (accs: InfusedAccount[]) =>
+    accs?.reduce(async (accumulatorPromise, account) => {
+      const accumulator = await accumulatorPromise;
+      const loaded = await getAsset(account);
+      if (await filter(loaded)) {
+        return [...accumulator, account];
+      }
+
+      return accumulator;
+    }, Promise.resolve([] as InfusedAccount[])) ||
+    ([] as InfusedAccount[]);
+
+  const results = await filterMissLoaded(mappedAccounts);
+  const items = await Promise.all(
+    results.map(async (result) => await loadedInfusedAccount(result))
+  );
+  console.log('Results: ', items);
+  // setAccouts(items);
+};

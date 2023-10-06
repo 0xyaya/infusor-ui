@@ -5,12 +5,6 @@ import {
   VStack,
   Text,
   Spacer,
-  Alert,
-  AlertIcon,
-  AlertTitle,
-  AlertDescription,
-  Icon,
-  CloseButton,
   useDisclosure,
 } from '@chakra-ui/react';
 import {
@@ -23,7 +17,6 @@ import { PublicKey, LAMPORTS_PER_SOL } from '@solana/web3.js';
 import OwnerDisplay from './components/OwnerDisplay';
 import CollectionDisplay from './components/CollectionDisplay';
 import ToolsBar from './components/ToolsBar';
-import { FaHeart } from 'react-icons/fa';
 import { useWorkspace } from './providers/ContextProvider';
 import { BN, utils } from '@coral-xyz/anchor';
 import { infuse } from './infusedCarbonRegistry/client';
@@ -49,15 +42,8 @@ export default function Home() {
   const [gridSizeDisplay, setGridSizeDisplay] =
     useState<GridSizeDisplay>(GridSizeDisplay.LITTLE);
 
-  const holdingAccount = new PublicKey(
-    '3bQhuVsa1sU5mZYJYmpWAN9jLNCM5xxk2RNtrqehfYuh'
-  );
-  const feesAccount = new PublicKey(
-    '735WcMTFNG3qXQat7VP2uxMpSvts969xg5vnKPiDpsp9'
-  );
-
   const {
-    isOpen: isVisible,
+    isOpen: isAlertVisible,
     onClose: onAlertClose,
     onOpen: onAlertOpen,
   } = useDisclosure({ defaultIsOpen: false });
@@ -117,9 +103,7 @@ export default function Home() {
     if (!anchorWallet) return;
     if (!nftToInfuse) return;
 
-    const nftMintPK = new PublicKey(nftToInfuse);
-
-    await infuse(program, new BN(amount), nftMintPK);
+    await infuse(program, new BN(amount), new PublicKey(nftToInfuse));
   };
 
   return (
@@ -146,7 +130,7 @@ export default function Home() {
           onClose={onInfusedModalClose}
           onInfuse={infuseNft}
         />
-        {isVisible && <InfusedAlert onClose={onAlertClose} />}
+        {isAlertVisible && <InfusedAlert onClose={onAlertClose} />}
 
         {searchWallet && searchingMode === 0 && (
           <OwnerDisplay

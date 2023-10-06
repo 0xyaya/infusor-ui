@@ -40,8 +40,8 @@ const DataTableBoard = ({
               </Td>
               <Td>{account.nftMint.toString().substring(0, 6)}...</Td>
               <Td>{account.collection}</Td>
-              <Td>{account.owner.substring(0, 6)}...</Td>
-              <Td>{account.carbonScore}</Td>
+              <Td>{account.owner?.toString().substring(0, 6)}...</Td>
+              <Td>{account.carbonScore.toString()}</Td>
             </Tr>
           ))}
       </Tbody>
