@@ -17,7 +17,16 @@ const DataTableBoard = ({accounts}: {accounts: LeaderBoardItem[]}) => {
             <Tbody>
                 {accounts &&
                     accounts.map((account, index) => (
-                        <Tr key={account.nftMint.toString()}>
+                        <Tr
+                            key={account.nftMint.toString()}
+                            _hover={{
+                                background: '#6AFFAE',
+                                color: 'gray.800',
+                                opacity: 0.95,
+                                transform: 'translateY(-5px)',
+                                transitionDuration: '0.3s',
+                                transitionTimingFunction: 'ease-in-out'
+                            }}>
                             <Td>{index + 1}</Td>
                             <Td>
                                 <Image
