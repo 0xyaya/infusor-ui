@@ -2,6 +2,8 @@ import {Box, VStack, Text, Spacer, Input} from '@chakra-ui/react';
 
 import CollectionList from '../components/CollectionList';
 
+export const runtime = 'edge';
+
 async function loadCollections() {
     const res = await fetch('http://127.0.0.1:3000/api/collections');
     const data = await res.json();
