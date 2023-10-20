@@ -1,14 +1,9 @@
 import {PublicKey} from '@solana/web3.js';
-import useFetchCollectionItems from '../hooks/useFetchCollectionItems';
 import NftGrid, {GridSizeDisplay} from './NftGrid';
 import NftCard from './NftCard';
-import {
-    NftItemWithMetadata,
-    loadMetadata,
-    preloadData
-} from '../hooks/metadataLoader';
-import {useEffect, useState} from 'react';
-import {Button, HStack} from '@chakra-ui/react';
+import {NftItemWithMetadata, loadMetadata} from '../hooks/metadataLoader';
+import {useEffect, useMemo, useState} from 'react';
+import useInfiniteScroll from '@/hooks/useInfiniteScroll';
 
 const CollectionDisplay = ({
     collection,
@@ -19,10 +14,8 @@ const CollectionDisplay = ({
     display: GridSizeDisplay;
     onInfuse: (nftMint: string) => void;
 }) => {
-    const [page, setPage] = useState<number>(1);
-    const {error, isLoaded, data, reload} = useFetchCollectionItems(
+    const {error, isLoaded, items, newItems} = useInfiniteScroll(
         collection,
-        page,
         display === GridSizeDisplay.BIG ? 20 : 24
     );
     const [fulldata, setFulldata] = useState<NftItemWithMetadata[]>([]);
@@ -33,17 +26,13 @@ const CollectionDisplay = ({
 
     useEffect(() => {
         const load = async () => {
-            const loadedData = await loadMetadata(data);
-            setFulldata(loadedData);
+            console.log(newItems);
+            const loadedData = await loadMetadata(newItems);
+            setFulldata((prevItems) => [...prevItems, ...loadedData]);
         };
 
         load();
-    }, [data]);
-
-    useEffect(() => {
-        const reloadData = async () => {};
-        reloadData();
-    }, [page]);
+    }, [newItems]);
 
     return (
         <>
@@ -57,20 +46,6 @@ const CollectionDisplay = ({
                             onInfuse={infuseHandler}></NftCard>
                     ))}
             </NftGrid>
-            <HStack>
-                <Button
-                    onClick={() =>
-                        reload(1, display === GridSizeDisplay.BIG ? 20 : 24)
-                    }>
-                    1
-                </Button>
-                <Button
-                    onClick={() =>
-                        reload(2, display === GridSizeDisplay.BIG ? 20 : 24)
-                    }>
-                    2
-                </Button>
-            </HStack>
         </>
     );
 };

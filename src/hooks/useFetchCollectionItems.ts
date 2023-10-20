@@ -7,26 +7,24 @@ const helius = new Helius(
     'mainnet-beta'
 );
 
-const useFetchCollectionItems = (
-    collection: PublicKey,
-    page: number,
-    limit: number
-) => {
+const useFetchCollectionItems = (collection: PublicKey, limit: number) => {
     const [data, setData] = useState<DAS.GetAssetResponse[]>([]);
     const [isLoaded, setIsLoaded] = useState(false);
     const [error, setError] = useState(null);
+    const [page, setPage] = useState(1);
 
-    const reload = async (newPage: number, newLimit: number) => {
+    const reload = async () => {
         helius.rpc
             .getAssetsByGroup({
                 groupKey: 'collection',
                 groupValue: collection.toString(),
-                page: newPage,
-                limit: newLimit
+                page: page,
+                limit: limit
             })
             .then((response) => {
                 setIsLoaded(true);
-                setData(response.items);
+                setData((prevItems) => [...prevItems, ...response.items]);
+                setPage((prevPage) => prevPage + 1);
             })
             .catch((error) => {
                 setError(error);
@@ -44,7 +42,8 @@ const useFetchCollectionItems = (
                 })
                 .then((response) => {
                     setIsLoaded(true);
-                    setData(response.items);
+                    setData((prevItems) => [...prevItems, ...response.items]);
+                    setPage((prevPage) => prevPage + 1);
                 })
                 .catch((error) => {
                     setError(error);
