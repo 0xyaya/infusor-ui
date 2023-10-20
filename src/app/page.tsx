@@ -3,9 +3,7 @@ import {Box, VStack, Text, Spacer, Input} from '@chakra-ui/react';
 import CollectionList from '../components/CollectionList';
 
 async function loadCollections() {
-    const res = await fetch(
-        'http://https://infusor.vercel.app/api/collections'
-    );
+    const res = await fetch('https://infusor.vercel.app/api/collections');
     const data = await res.json();
     const collectionsData = data.collections.map((c: any) => ({
         address: c.address,
