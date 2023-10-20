@@ -182,6 +182,7 @@ export default async function Home() {
         <Box
             maxW="7xl"
             mx="auto"
+            marginTop={50}
             minHeight="100vh"
             px={{base: '4', md: '8', lg: '10'}}
             py={{base: '6', md: '8', lg: '10'}}>

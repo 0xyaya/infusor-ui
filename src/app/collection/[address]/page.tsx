@@ -110,6 +110,7 @@ export default function Collection({params}: {params: {address: string}}) {
         <Box
             maxW="7xl"
             mx="auto"
+            marginTop={50}
             minHeight="100vh"
             px={{base: '4', md: '8', lg: '10'}}
             py={{base: '6', md: '8', lg: '10'}}>
@@ -119,10 +120,12 @@ export default function Collection({params}: {params: {address: string}}) {
                     eco-friendly version.
                 </Text>
                 <Spacer />
+                <Text>Search NFTs by collection or by wallet address.</Text>
                 <ToolsBar
                     onGridChange={gridChangedHandler}
                     onSearchCollection={searchCollectionHandler}
                     onSearchOwner={searchOwnerHandler}
+                    collection={collection}
                 />
                 <InfuseModal
                     isOpen={isInfusedModalOpen}
@@ -130,11 +133,7 @@ export default function Collection({params}: {params: {address: string}}) {
                     onInfuse={infuseNft}
                 />
                 {isAlertVisible && <InfusedAlert onClose={onAlertClose} />}
-                <HStack>
-                    <Link href="/">Home</Link>
-                    <Text>{'>'}</Text>
-                    <Text>{address}</Text>
-                </HStack>
+
                 {/* {searchWallet && searchingMode === 0 && (
                     <OwnerDisplay
                         wallet={new PublicKey(searchWallet)}

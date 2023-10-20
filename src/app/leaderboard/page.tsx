@@ -70,6 +70,7 @@ const Leaderboard = () => {
             maxW="7xl"
             mx="auto"
             minHeight="100vh"
+            marginTop={50}
             px={{base: '4', md: '8', lg: '10'}}
             py={{base: '6', md: '8', lg: '10'}}>
             {accounts && <DataTableBoard accounts={accounts} />}
