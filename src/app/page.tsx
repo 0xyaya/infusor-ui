@@ -3,23 +3,19 @@ import {Box, VStack, Text, Spacer, Input} from '@chakra-ui/react';
 import CollectionList from '../components/CollectionList';
 
 async function loadCollections() {
-    try {
-        const res = await fetch('https://infusor.vercel.app/api/collections');
-        const data = await res.json();
-        const collectionsData = data.collections.map((c: any) => ({
-            address: c.address,
-            imageUri: c.metadata.image,
-            supply: 10000,
-            name: c.metadata.name,
-            totalScore: 208,
-            sevenDayInfused: 10,
-            sevenDayVar: 5
-        }));
+    const res = await fetch('/api/collections');
+    const data = await res.json();
+    const collectionsData = data.collections.map((c: any) => ({
+        address: c.address,
+        imageUri: c.metadata.image,
+        supply: 10000,
+        name: c.metadata.name,
+        totalScore: 208,
+        sevenDayInfused: 10,
+        sevenDayVar: 5
+    }));
 
-        return collectionsData;
-    } catch (e) {
-        console.log(e);
-    }
+    return collectionsData;
 }
 
 export default async function Home() {
