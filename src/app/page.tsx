@@ -5,7 +5,9 @@ import CollectionList from '../components/CollectionList';
 export const runtime = 'edge';
 
 async function loadCollections() {
-    const res = await fetch('http://127.0.0.1:3000/api/collections');
+    const res = await fetch(
+        'http://https://infusor.vercel.app/api/collections'
+    );
     const data = await res.json();
     const collectionsData = data.collections.map((c: any) => ({
         address: c.address,
