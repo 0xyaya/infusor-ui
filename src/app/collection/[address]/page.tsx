@@ -1,18 +1,26 @@
 'use client';
 
-import {Box, VStack, Text, Spacer, useDisclosure} from '@chakra-ui/react';
+import {
+    Box,
+    VStack,
+    Text,
+    Spacer,
+    useDisclosure,
+    Link,
+    HStack
+} from '@chakra-ui/react';
 import {useAnchorWallet, useWallet} from '@solana/wallet-adapter-react';
 import {useEffect, useState} from 'react';
-import {GridSizeDisplay} from '../../components/NftGrid';
+import {GridSizeDisplay} from '../../../components/NftGrid';
 import {PublicKey, LAMPORTS_PER_SOL} from '@solana/web3.js';
-import OwnerDisplay from '../../components/OwnerDisplay';
-import CollectionDisplay from '../../components/CollectionDisplay';
-import ToolsBar from '../../components/ToolsBar';
-import {useWorkspace} from '../../providers/ContextProvider';
+import OwnerDisplay from '../../../components/OwnerDisplay';
+import CollectionDisplay from '../../../components/CollectionDisplay';
+import ToolsBar from '../../../components/ToolsBar';
+import {useWorkspace} from '../../../providers/ContextProvider';
 import {BN, utils} from '@coral-xyz/anchor';
-import {infuse} from '../../infusedCarbonRegistry/client';
-import InfuseModal from '../../components/infuseModal';
-import InfusedAlert from '../../components/InfusedAlert';
+import {infuse} from '../../../infusedCarbonRegistry/client';
+import InfuseModal from '../../../components/infuseModal';
+import InfusedAlert from '../../../components/InfusedAlert';
 import {useRouter} from 'next/router';
 
 export default function Collection({params}: {params: {address: string}}) {
@@ -55,7 +63,7 @@ export default function Collection({params}: {params: {address: string}}) {
                 setSearchWallet(wallet.publicKey.toString());
         };
         syncWallet();
-    }, [wallet, connection, searchingMode]);
+    }, [wallet, connection, searchingMode, searchWallet]);
 
     useEffect(() => {
         if (!program) return;
@@ -122,7 +130,11 @@ export default function Collection({params}: {params: {address: string}}) {
                     onInfuse={infuseNft}
                 />
                 {isAlertVisible && <InfusedAlert onClose={onAlertClose} />}
-                <Text>Collection: {address}</Text>
+                <HStack>
+                    <Link href="/">Home</Link>
+                    <Text>{'>'}</Text>
+                    <Text>{address}</Text>
+                </HStack>
                 {/* {searchWallet && searchingMode === 0 && (
                     <OwnerDisplay
                         wallet={new PublicKey(searchWallet)}

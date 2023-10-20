@@ -1,6 +1,6 @@
 import {Box, VStack, Text, Spacer, Input} from '@chakra-ui/react';
 
-import CollectionList from './components/CollectionList';
+import CollectionList from '../components/CollectionList';
 
 async function loadCollections() {
     const res = await fetch('http://localhost:3000/api/collections');

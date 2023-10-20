@@ -21,37 +21,6 @@ interface CardInfosProps {
     onSearchOwner: (wallet: string) => void;
 }
 
-const collections = [
-    {
-        name: 'Famous Fox Federation',
-        address: 'BUjZjAS2vbbb65g7Z1Ca9ZRVYoJscURG5L3AkVvHP9ac'
-    },
-    {
-        name: 'The Heist',
-        address: '6d9pvGuM6iG9GVuxRzSVHEQCdy44arm6oyqu6aUzrzLo'
-    },
-    {
-        name: 'Reavers',
-        address: '6P9DSB6ifwTfSjAY6CpEvnHYfk6Sc2iYWSoM2qM4u31f'
-    },
-    {
-        name: 'Meegos',
-        address: 'HNv9G2NxgZEWLxmzFqSCWYk4moUYvNrWjbq6AY2AHJKF'
-    },
-    {
-        name: 'SMB GEN2',
-        address: 'SMBtHCCC6RYRutFEPb4gZqeBLUZbMNhRKaMKZZLHi7W'
-    },
-    {
-        name: 'Degenerate Ape Academy',
-        address: 'DSwfRF1jhhu6HpSuzaig1G19kzP73PfLZBPLofkw6fLD'
-    },
-    {
-        name: 'Smyths',
-        address: 'CLBrjmoDCFvrW8ukxXtDrBXWkL7Yx8PKspKaBPFxhpmL'
-    }
-];
-
 const ToolsBar = ({
     onGridChange,
     onSearchCollection,
@@ -74,21 +43,6 @@ const ToolsBar = ({
     return (
         <Box position="relative" w="100%" p="8px">
             <HStack justifyContent="space-between">
-                <Select
-                    w="30%"
-                    variant="outline"
-                    onChange={collectionChangeHandle}
-                    value={selectedCollection}>
-                    {collections.map((collection) => (
-                        <option
-                            value={collection.address}
-                            key={collection.address}>
-                            {collection.name}
-                        </option>
-                    ))}
-                </Select>
-
-                <Spacer />
                 <Text>Owner Address:</Text>
                 <form
                     onSubmit={(e) => {

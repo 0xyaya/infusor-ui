@@ -3,7 +3,7 @@
 import {Box, Text} from '@chakra-ui/react';
 import {useEffect, useState, lazy, Suspense} from 'react';
 import {InfusedAccount, LeaderBoardItem} from './InfusedAccount';
-import {useWorkspace} from '../providers/ContextProvider';
+import {useWorkspace} from '../../providers/ContextProvider';
 
 import {BaseInfusedAccount, loadedInfusedAccount} from './utils';
 const DataTableBoard = lazy(() => import('./DataTableBoard'));

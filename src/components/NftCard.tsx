@@ -73,8 +73,8 @@ const NftCard = ({
             <Image
                 boxSize={
                     gridSizeDisplay === GridSizeDisplay.LITTLE
-                        ? '250px'
-                        : '300px'
+                        ? '200px'
+                        : '250px'
                 }
                 src={nft.imageUri}
                 alt="Picture of something"
