@@ -4,7 +4,7 @@ import CollectionList from '../components/CollectionList';
 
 async function loadCollections() {
     const res = await fetch(
-        `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/collections`
+        `http://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/collections`
     );
     const data = await res.json();
     const collectionsData = data.collections.map((c: any) => ({
