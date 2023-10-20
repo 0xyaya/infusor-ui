@@ -2,8 +2,6 @@ import {Box, VStack, Text, Spacer, Input} from '@chakra-ui/react';
 
 import CollectionList from '../components/CollectionList';
 
-export const runtime = 'edge';
-
 async function loadCollections() {
     const res = await fetch(
         'http://https://infusor.vercel.app/api/collections'
