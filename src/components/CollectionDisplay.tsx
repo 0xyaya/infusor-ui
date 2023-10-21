@@ -4,6 +4,12 @@ import NftCard from './NftCard';
 import {NftItemWithMetadata, loadMetadata} from '../hooks/metadataLoader';
 import {useEffect, useMemo, useState} from 'react';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
+import {DAS, Helius} from 'helius-sdk';
+
+const helius = new Helius(
+    `${process.env.NEXT_PUBLIC_API_KEY_SECRET}`,
+    'mainnet-beta'
+);
 
 const CollectionDisplay = ({
     collection,
@@ -14,11 +20,11 @@ const CollectionDisplay = ({
     display: GridSizeDisplay;
     onInfuse: (nftMint: string) => void;
 }) => {
-    const {error, isLoaded, items, newItems} = useInfiniteScroll(
+    const {error, isLoading, items} = useInfiniteScroll(
         collection,
         display === GridSizeDisplay.BIG ? 20 : 24
     );
-    const [fulldata, setFulldata] = useState<NftItemWithMetadata[]>([]);
+    const [nfts, setNfts] = useState<NftItemWithMetadata[]>([]);
 
     const infuseHandler = (nftMint: string) => {
         onInfuse(nftMint);
@@ -26,19 +32,18 @@ const CollectionDisplay = ({
 
     useEffect(() => {
         const load = async () => {
-            console.log(newItems);
-            const loadedData = await loadMetadata(newItems);
-            setFulldata((prevItems) => [...prevItems, ...loadedData]);
+            const loadedData = await loadMetadata(items);
+            setNfts((prevItems) => [...prevItems, ...loadedData]);
         };
 
         load();
-    }, [newItems]);
+    }, [items]);
 
     return (
         <>
             <NftGrid display={display}>
-                {fulldata &&
-                    fulldata.map((d) => (
+                {nfts &&
+                    nfts.map((d) => (
                         <NftCard
                             key={d.title}
                             nft={d}

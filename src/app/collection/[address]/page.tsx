@@ -119,8 +119,6 @@ export default function Collection({params}: {params: {address: string}}) {
                     Infuse any NFT with carbon credits to tranform it in a
                     eco-friendly version.
                 </Text>
-                <Spacer />
-                <Text>Search NFTs by collection or by wallet address.</Text>
                 <ToolsBar
                     onGridChange={gridChangedHandler}
                     onSearchCollection={searchCollectionHandler}
