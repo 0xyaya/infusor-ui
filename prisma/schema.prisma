@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+
+model collections {
+  id                 String          @id @default(auto()) @map("_id") @db.ObjectId
+  address            String
+  name               String
+  image              String
+  description        String
+  infusedDatas       collectionInfusedData[]
+}
+
+model collectionInfusedData {
+  id                 String          @id @default(auto()) @map("_id") @db.ObjectId
+  score              Int
+  collection         collections    @relation(fields: [collectionId], references: [id])
+  collectionId       String       @db.ObjectId
+}
