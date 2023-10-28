@@ -92,7 +92,8 @@ async function main() {
             data: {
                 address: c.address,
                 name: c.metadata.name,
-                image: c.metadata.image
+                image: c.metadata.image,
+                description: c.metadata.description
             }
         });
         console.log(`Created collection with id: ${collection.id}`);
