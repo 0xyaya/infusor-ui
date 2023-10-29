@@ -4,7 +4,7 @@ const nextConfig = {
     env: {
         NEXT_PUBLIC_API_KEY_SECRET: process.env.NEXT_PUBLIC_API_KEY_SECRET,
         NEXT_PUBLIC_VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL,
-        DATABASE_URL: process.env.DATABASE_URL
+        NEXT_PUBLIC_DATABASE_URL: process.env.NEXT_PUBLIC_DATABASE_URL
     },
     // Can be safely removed in newer versions of Next.js
     // by default, if you customize webpack config, they switch back to version 4.
